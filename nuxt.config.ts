@@ -35,8 +35,5 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
-  },
-  nitro: {
-    preset: 'vercel-edge',
-  },
+  }
 })
