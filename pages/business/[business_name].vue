@@ -1,6 +1,6 @@
 <template>
 <h1>
-    {{ params?.bussines_name }}
+    {{ params?.business_name }}
 </h1>
 </template>
 <script setup>

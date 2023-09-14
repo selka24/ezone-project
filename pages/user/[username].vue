@@ -8,6 +8,7 @@
 </template>
 <script setup>
     const route = useRoute();
-    const params = route.params
+    const params = route.params;
+
     console.log(route, 'routeeee')
 </script>

@@ -21,6 +21,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image-edge',
     '@nuxtjs/supabase',
+    '@pinia/nuxt'
   ],
   supabase:{
     redirectOptions: {
@@ -28,6 +29,12 @@ export default defineNuxtConfig({
       callback: '/confirm',
       exclude: ['/', '/user/*', '/register']
     }
+  },
+  imports: {
+      dirs: ['./stores'],
+  },
+  pinia: {
+    autoImports: ['defineStore', 'acceptHMRUpdate'],
   },
   css: ['~/assets/css/main.css'],
   postcss: {
