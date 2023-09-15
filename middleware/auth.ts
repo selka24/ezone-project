@@ -8,5 +8,5 @@ export default defineNuxtRouteMiddleware((to, from) => {
     if (user?.value && noAuthPaths.findIndex(x => x === to.path) >= 0) {
         return navigateTo('/')
     }
-  })
+})
   

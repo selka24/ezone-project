@@ -13,8 +13,15 @@
     </div>
 </template>
 <script setup>
+    import { useMainStore } from '~/stores/main';
+
     const user = useSupabaseUser();
     const client = useSupabaseClient();
+    const mainStore = useMainStore(); 
+    
+    if(user){
+        mainStore.checkForCompany();    
+    }
 
     const handleLogOut = async () => {
         try {

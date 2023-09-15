@@ -1,6 +1,6 @@
 export const useMainStore = defineStore("mainStore", () => {
   const supabaseClient = useSupabaseClient();
-
+  const user = useSupabaseUser();
   const businessInfo = ref({
     name: "",
     description: "",
@@ -79,6 +79,21 @@ export const useMainStore = defineStore("mainStore", () => {
     }
   };
 
+  const checkForCompany = async () => {
+    console.log(user.value.id, "useraaaaa");
+    try {
+      const { data, error } = await supabaseClient
+        .from("companies")
+        .select()
+        .eq("company_owner", user.value.id);
+
+      if (error) throw error;
+      businessInfo.value = data[0];
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return {
     businessInfo,
     formStep,
@@ -86,6 +101,7 @@ export const useMainStore = defineStore("mainStore", () => {
     users,
     searchUsers,
     createCompany,
+    checkForCompany,
     addServices,
     updateCompany,
     deleteCompany,
