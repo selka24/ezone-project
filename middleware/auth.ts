@@ -4,7 +4,6 @@ export default defineNuxtRouteMiddleware((to, from) => {
         '/register',
         '/login'
     ]
-
     if (user?.value && noAuthPaths.findIndex(x => x === to.path) >= 0) {
         return navigateTo('/')
     }

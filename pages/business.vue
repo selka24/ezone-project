@@ -1,17 +1,20 @@
 <template>
    <div>
-       <RegisterCompany/>
+       <RegisterCompany v-if="loaded"/>
+       <Loading v-else/>
    </div>
 </template>
 <script setup>
    import { useMainStore } from '~/stores/main';
+   const user = useSupabaseUser();
+   const loaded = ref(false)
 
-   definePageMeta({
-      middleware: 'business'
-   })
+   if(!user.value){
+      const router = useRouter();
+      router.push('/login')
+   }
 
-   const {params} = useRoute();
+   loaded.value = true;
    const mainStore = useMainStore();
-
    mainStore.checkForCompany();
 </script>
