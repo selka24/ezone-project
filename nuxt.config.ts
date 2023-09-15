@@ -24,11 +24,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt'
   ],
   supabase:{
-    redirectOptions: {
-      login: '/login',
-      callback: '/confirm',
-      exclude: ['/', '/user/*', '/register']
-    }
+    redirect: false
   },
   imports: {
       dirs: ['./stores'],
