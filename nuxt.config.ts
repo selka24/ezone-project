@@ -38,5 +38,10 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
+  },
+  runtimeConfig:{
+    public: {
+      logoUrl: `${process.env.SUPABASE_URL}/storage/v1/object/public/avatars`
+    }
   }
 })

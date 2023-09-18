@@ -4,7 +4,4 @@
     </div>
 </template>
 <script setup>
-    definePageMeta({
-        middleware: 'business'
-    })
 </script>

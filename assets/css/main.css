@@ -17,6 +17,21 @@
     }
 }
 
+
+.dropdown-enter-active {
+    transition: ease-out 100ms;
+}
+
+.dropdown-leave-active {
+    transition: ease-in 75ms;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+    transform: scale(.95);
+    opacity: 0;
+}
+
 /* ::-webkit-scrollbar {
     width: 5px;
 }
