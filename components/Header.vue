@@ -18,7 +18,7 @@
                 </div>
                 <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                     <div class="flex flex-shrink-0 items-center">
-                        <nuxt-img height="40" class="w-auto" src="/images/logo.png" alt="E Zone"/>
+                        <nuxt-img height="40" class="h-[40px] w-auto" src="/images/logo.png" alt="E Zone"/>
                     </div>
                     <div class="hidden sm:ml-6 sm:block">
                         <div class="flex space-x-4">
