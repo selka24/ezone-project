@@ -46,7 +46,7 @@
             mainStore.checkForEmployees();
         }
     })
-    // const selectedUsers = ref([])
+
     const defaultEmployee = {
         "user_id": null,
         "name": null,
@@ -55,18 +55,9 @@
         "busy": null,
     }
 
-
-
     const handleSearchChange = (text) => {
         mainStore.searchUsers(text);
     }
-
-    // const filteredUsers = computed(() => {
-    //     return mainStore.users.filter(user => {
-    //         const idx = selectedUsers.findIndex(x => x.id === user.id);
-    //         if(idx < 0) return user;
-    //     })
-    // })
 
     const transformToEmployee = ({full_name, id}) => {
         return {

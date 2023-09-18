@@ -1,13 +1,23 @@
 <template>
     <div class="flex p-5 gap-5">
-        <div class="flex flex-col p-2 gap-5 items-center border rounded-xl w-1/3">
-            <div class="font-semibold text-xl mb-5">Business Info</div>
-            <div>{{mainStore.businessInfo.name}}</div>
-            <div>{{mainStore.businessInfo.description}}</div>
-            <nuxt-img v-if="mainStore.businessInfo.logo_url" width="250" height="150" :src="`${logoUrl}/${mainStore.businessInfo.logo_url}`"/>
+        <div class="flex flex-col p-2 gap-5 border rounded-xl w-full">
+            <div class="font-semibold text-xl mb-5">Te dhenat</div>
+            <div class="flex items-center">
+                <div>
+                    <div>Emri: <b>{{mainStore.businessInfo.name}}</b></div>
+                    <div>Pershkrimi: <b>{{mainStore.businessInfo.description}}</b></div>
+                </div>
+                <nuxt-img class="ml-auto w-auto h-[100px]"  v-if="mainStore.businessInfo.logo_url" :src="`${logoUrl}/${mainStore.businessInfo.logo_url}`"/>
+            </div>
+            <div>
+                <CompanyFormStepHeader title="Sherbimet" description="Ketu mund te shikosh dhe menaxhosh sherbimet."/>
+            </div>
+            <div>
+                <AdminServiceList/>
+            </div>
         </div>
-        <div class="border rounded-xl p-2 w-2/3">
-            <div class="font-semibold text-xl mb-5">Employees</div>
+        <div class="border rounded-xl p-2 w-full">
+            <div class="font-semibold text-xl mb-5">Punonjesit</div>
             <LazyAdminEmployeeCard
                 class="border-b pb-5"
                 v-for="employee in mainStore.businessEmployees"

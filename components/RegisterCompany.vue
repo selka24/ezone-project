@@ -1,6 +1,14 @@
 <template>
     <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:pt-24 sm:pb-10 lg:px-8">
         <div class="mx-auto max-w-2xl">
+            <div class="flex items-center mb-5">
+                <div class="flex-grow cursor-pointer" @click="handleBack">
+                    <Icon name="eva:arrow-ios-back-fill"/>
+                </div>
+                <h3 class="text-xl flex-grow self-center">
+                    Register your business
+                </h3>
+            </div>
             <ProgressBar :steps="3" :progress="mainStore.formStep"/>
             <div class="relative">
                 <Transition name="slide-fade">
@@ -206,6 +214,12 @@
 
     const mainStore = useMainStore();
 
+    const handleBack = () => {
+        if(mainStore.formStep > 0)
+            mainStore.formStep--;
+        else
+            mainStore.formStep++;
+    }
 </script>
 <style>
 .slide-fade-enter-active {

@@ -21,7 +21,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image-edge',
     '@nuxtjs/supabase',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    'nuxt-icon'
   ],
   supabase:{
     redirect: false

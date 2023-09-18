@@ -7,6 +7,7 @@ export const useMainStore = defineStore("mainStore", () => {
     logo_url: "",
   });
   const businessServices = ref([]);
+  const currBusinessUrl = ref('')
   const users = ref([]);
   const formStep = ref(2);
   const businessEmployees = ref([])
@@ -35,7 +36,7 @@ export const useMainStore = defineStore("mainStore", () => {
           .match({ id: businessInfo.value.id });
       if (error) throw error;
     } catch (error) {
-      alert(error);
+      alert(error.message);
     }
   };
 
@@ -48,7 +49,7 @@ export const useMainStore = defineStore("mainStore", () => {
     console.log(data, "dataaaa");
   };
 
-  const addServices = async () => {
+  const addServices = async (service) => {
     try {
       console.log(businessServices.value, "businessServices");
       if (businessServices.value.length <= 0) {
@@ -56,11 +57,10 @@ export const useMainStore = defineStore("mainStore", () => {
       }
       const { data, error } = await supabaseClient
           .from("services")
-          .insert(businessServices.value)
+          .insert(service)
           .select();
       if (error) throw error;
-        businessServices.value = data
-        formStep.value++;
+        businessServices.value.push(data[0])
     } catch (error) {
       alert(error);
     }
@@ -94,6 +94,7 @@ export const useMainStore = defineStore("mainStore", () => {
       if (error) throw error;
       if(data[0]) {
         const {services, employees, ...rest} = data[0];
+        currBusinessUrl.value = rest.url;
         businessInfo.value = rest;
         console.log(employees, 'employees')
         businessEmployees.value = employees;
@@ -151,6 +152,7 @@ export const useMainStore = defineStore("mainStore", () => {
     businessServices,
     users,
     businessEmployees,
+    currBusinessUrl,
     searchUsers,
     createCompany,
     checkForCompany,

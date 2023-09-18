@@ -1,5 +1,4 @@
 <template>
-    <form @submit.prevent="handleSubmit">
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
                 <CompanyFormStepHeader title="Business Information" description="This information will be displayed publicly so be careful what you share."/>
@@ -72,15 +71,13 @@
             </div>
         </div>
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button @click="handleDelete" type="button" class="text-sm font-semibold leading-6 text-gray-900">Cancel</button>
-            <button type="submit" class="rounded-md bg-blue-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+            <button-custom @click="handleSubmit">Save</button-custom>
         </div>
-    </form>
 </template>
 <script setup>
     import {useMainStore} from '~/stores/main';
     import {useVuelidate} from '@vuelidate/core';
-    import {required, helpers, alpha} from '@vuelidate/validators';
+    import {required, alpha} from '@vuelidate/validators';
     import LogoUpload from "~/components/companyForm/LogoUpload.vue";
 
     const mainStore = useMainStore();
@@ -88,11 +85,11 @@
     const urlExists = ref(false);
     const checkingUrl = ref(false);
 
+
     const host = ref('ezone.com');
     if(!process.server){
         host.value = window.location.host
     }
-
 
     const rules = computed(() => {
         return {
@@ -109,16 +106,20 @@
     const handleUrlChange = async () => {
         if(!v$.value.url.$error && mainStore.businessInfo.url){
             checkingUrl.value = true;
-            const {data, error} = await client
-            .from('companies')
-            .select()
-            .match({url: mainStore.businessInfo.url})
-
-            if(error) alert(error);
-            if(data.length) {
-                urlExists.value = true;
-            } else {
+            if(mainStore.businessInfo.url === mainStore.currBusinessUrl){
                 urlExists.value = false;
+            } else {
+                const {data, error} = await client
+                    .from('companies')
+                    .select()
+                    .match({url: mainStore.businessInfo.url})
+
+                if(error) alert(error);
+                if(data.length) {
+                    urlExists.value = true;
+                } else {
+                    urlExists.value = false;
+                }
             }
             checkingUrl.value = false;
         } else {
@@ -126,18 +127,14 @@
         }
     }
 
-    const handleDelete = () => {
-        mainStore.deleteCompany();
-    }
-
     const handleSubmit = async () => {
+        console.log('submiiiit')
         const valid = await v$.value.$validate();
         if(valid && !urlExists.value) {
-            mainStore.createCompany();
-            // mainStore.formStep++;
-            // alert('Valid')
-        } else {
-            alert('Invalid')
+            if(mainStore.businessInfo.id)
+                mainStore.updateCompany();
+            else
+                mainStore.createCompany();
         }
     }
 </script>

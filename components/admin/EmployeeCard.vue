@@ -7,7 +7,7 @@
     const formatDate = useDateFormat(props.employee.created_at);
 
     const services = computed(() => {
-        return mainStore.businessServices.map(s => {
+        return mainStore.businessServices.filter(s => {
             if(props.employee.services.find(x => s.id === x)) return s;
         })
     })
