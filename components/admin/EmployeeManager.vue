@@ -20,7 +20,7 @@
     const mainStore = useMainStore();
 
     const getEmployeeServices = () => {
-        return mainStore.employees.find(empl => empl.user_id === props.employee.user_id);
+        return mainStore.businessEmployees.find(empl => empl.user_id === props.employee.user_id);
     }
 
     const serviceAdded = (serviceId) => getEmployeeServices().services.findIndex(id => id === serviceId) >= 0;
@@ -39,13 +39,13 @@
         if(props.employee.created_at) {
             await mainStore.deleteEmployee(props.employee.user_id);
         }
-        mainStore.employees = mainStore.employees.filter(em => em.user_id !== props.employee.user_id);
+        mainStore.businessEmployees = mainStore.businessEmployees.filter(em => em.user_id !== props.employee.user_id);
     }
 </script>
 
 <template>
     <div class="border p-3 rounded-xl select-none">
-        <accordion class="z-0">
+        <accordion>
             <template #header>
                 <div class="flex px-4 sm:px-0 cursor-pointer">
                     <div>
@@ -55,7 +55,7 @@
                 </div>
             </template>
             <template #right-actions>
-                <button @click="handleEmployeeDelete" class="z-10 mt-auto rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Delete</button>
+                <button-custom @click="handleEmployeeDelete" class="mt-auto" theme="danger">Delete</button-custom>
             </template>
             <div class="mt-6 border-t border-gray-100 pt-5">
                 <fieldset>

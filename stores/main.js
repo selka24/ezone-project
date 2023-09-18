@@ -9,7 +9,7 @@ export const useMainStore = defineStore("mainStore", () => {
   const businessServices = ref([]);
   const users = ref([]);
   const formStep = ref(2);
-  const employees = ref([])
+  const businessEmployees = ref([])
 
   const createCompany = async () => {
     try {
@@ -93,9 +93,11 @@ export const useMainStore = defineStore("mainStore", () => {
 
       if (error) throw error;
       if(data[0]) {
-        const {services, ...rest} = data[0];
+        const {services, employees, ...rest} = data[0];
         businessInfo.value = rest;
-        businessServices.value = services
+        console.log(employees, 'employees')
+        businessEmployees.value = employees;
+        businessServices.value = services;
       }
     } catch (error) {
       alert(error);
@@ -109,7 +111,7 @@ export const useMainStore = defineStore("mainStore", () => {
           .select()
           .eq('company_id', businessInfo.value.id);
       if(error) throw error;
-      employees.value = data
+      businessEmployees.value = data
       console.log(data, 'dataa')
     } catch (e) {
       alert(e);
@@ -120,11 +122,11 @@ export const useMainStore = defineStore("mainStore", () => {
     try {
       const {data, error} = await supabaseClient
           .from('employees')
-          .insert(employees.value)
+          .insert(businessEmployees.value)
           .select();
 
       if(error) throw error
-      employees.value = data;
+      businessEmployees.value = data;
       formStep.value++;
     } catch (error) {
 
@@ -148,7 +150,7 @@ export const useMainStore = defineStore("mainStore", () => {
     formStep,
     businessServices,
     users,
-    employees,
+    businessEmployees,
     searchUsers,
     createCompany,
     checkForCompany,

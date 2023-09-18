@@ -8,9 +8,9 @@
         </div>
         <div class="border rounded-xl p-2 w-2/3">
             <div class="font-semibold text-xl mb-5">Employees</div>
-            <LazyAdminEmployeeManager
+            <LazyAdminEmployeeCard
                 class="border-b pb-5"
-                v-for="employee in mainStore.employees"
+                v-for="employee in mainStore.businessEmployees"
                 :employee="employee"
                 :key="employee.user_id"
             />

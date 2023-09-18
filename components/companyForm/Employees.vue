@@ -17,7 +17,7 @@
             <div class="flex flex-col divide-gray-100 gap-5">
                 <LazyAdminEmployeeManager
                     class="border-b pb-5"
-                    v-for="employee in mainStore.employees"
+                    v-for="employee in mainStore.businessEmployees"
                     :employee="employee"
                     :key="employee.user_id"
                 />
@@ -77,11 +77,11 @@
     }
 
     const handleUserSelect = (user) => {
-        const idx = mainStore.employees.findIndex(x => x.user_id === user.id);
+        const idx = mainStore.businessEmployees.findIndex(x => x.user_id === user.id);
         if(idx < 0) {
             const employee = transformToEmployee(user);
             employee.company_id = mainStore.businessInfo.id;
-            mainStore.employees = [employee, ...mainStore.employees];
+            mainStore.businessEmployees = [employee, ...mainStore.businessEmployees];
         }
     }
 
