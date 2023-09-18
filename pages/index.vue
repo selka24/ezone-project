@@ -8,28 +8,19 @@
                 Login
             </NuxtLink>
         </div>
-        Useri : {{ user?.email }}
-        <button v-if="user" @click="handleLogOut" class="border text-3xl border-blue-500 p-5 font-bold">Log out</button>
+        <div class="flex flex-col text-left p-10 gap-5">
+          <div class="border border-gray-200 rounded-xl max-w-max p-5">
+              Useri : {{ user?.email }}
+          </div>
+          <NuxtLink to="/business" class="border border-gray-200 rounded-xl max-w-max p-5">
+              Company : {{ mainStore.businessInfo.name || 'No company' }}
+          </NuxtLink>
+        </div>
     </div>
 </template>
 <script setup>
     import { useMainStore } from '~/stores/main';
 
     const user = useSupabaseUser();
-    const client = useSupabaseClient();
-    const mainStore = useMainStore(); 
-    
-    if(user){
-        mainStore.checkForCompany();    
-    }
-
-    const handleLogOut = async () => {
-        try {
-            const {data, error} = await client.auth.signOut();
-            if(error) throw error;
-        } catch (error) {
-            alert(error.message);
-        }
-    }
-    console.log(user?.value, 'useriiii');
+    const mainStore = useMainStore();
 </script>

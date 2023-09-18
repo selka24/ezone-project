@@ -7,11 +7,11 @@
                     <div class="sm:col-span-4">
                         <label for="business_name" class="block text-sm font-medium leading-6 text-gray-900">Business name</label>
                         <div class="mt-2">
-                            <input 
+                            <input
                                 v-model="mainStore.businessInfo.name"
                                 @change="v$.name.$touch"
-                                type="text" 
-                                name="business_name" 
+                                type="text"
+                                name="business_name"
                                 id="business_name"
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             >
@@ -23,8 +23,15 @@
                             </span>
                         </div>
                     </div>
-                    
+
                     <div class="sm:col-span-4">
+                        <div class="block text-sm font-medium leading-6 text-gray-900">Business Logo</div>
+                        <div class="mt-2">
+                            <LogoUpload v-model:path="mainStore.businessInfo.logo_url" @upload="mainStore.updateCompany"/>
+                        </div>
+                    </div>
+
+                   <div class="sm:col-span-4">
                         <label for="url" class="block text-sm font-medium leading-6 text-gray-900">URL</label>
                         <div class="mt-2">
                             <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -33,7 +40,7 @@
                                     v-model="mainStore.businessInfo.url"
                                     @change="v$.url.$touch"
                                     @blur="handleUrlChange"
-                                    type="text" 
+                                    type="text"
                                     name="url" id="url" autocomplete="username" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="janesmith"
                                 >
                                 <button v-if="checkingUrl" type="button" class="rounded-lg flex gap-2 items-center p-2 px-4" >
@@ -41,7 +48,7 @@
                                     <span class="text-gray-900 text-xs">Checking URL...</span>
                                 </button>
                             </div>
-                          
+
                             <span
                                 v-if="v$.url.$error || urlExists"
                                 class="mt-2 text-sm text-red-500"
@@ -56,7 +63,7 @@
                         <div class="mt-2">
                             <textarea
                                 v-model="mainStore.businessInfo.description"
-                                id="about" 
+                                id="about"
                                 name="about" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                         </div>
                         <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
@@ -74,6 +81,7 @@
     import {useMainStore} from '~/stores/main';
     import {useVuelidate} from '@vuelidate/core';
     import {required, helpers, alpha} from '@vuelidate/validators';
+    import LogoUpload from "~/components/companyForm/LogoUpload.vue";
 
     const mainStore = useMainStore();
     const client = useSupabaseClient();
@@ -82,7 +90,7 @@
 
     const host = ref('ezone.com');
     if(!process.server){
-        host.value = window.location.host 
+        host.value = window.location.host
     }
 
 
@@ -97,7 +105,7 @@
     })
 
     const v$ = useVuelidate(rules, mainStore.businessInfo);
-    
+
     const handleUrlChange = async () => {
         if(!v$.value.url.$error && mainStore.businessInfo.url){
             checkingUrl.value = true;
@@ -105,7 +113,7 @@
             .from('companies')
             .select()
             .match({url: mainStore.businessInfo.url})
-        
+
             if(error) alert(error);
             if(data.length) {
                 urlExists.value = true;

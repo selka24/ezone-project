@@ -1,10 +1,16 @@
 <template>
     <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:pt-24 sm:pb-10 lg:px-8">
         <div class="mx-auto max-w-2xl">
-            <ProgressBar :steps="4" :progress="mainStore.formStep"/>
-            <CompanyFormCompanyInfo v-if="mainStore.formStep === 0"/>
-            <CompanyFormServices v-else-if="mainStore.formStep === 1"/>
-            <CompanyFormEmployees v-else-if="mainStore.formStep === 2"/>
+            <ProgressBar :steps="3" :progress="mainStore.formStep"/>
+            <div class="relative">
+                <Transition name="slide-fade">
+                    <LazyCompanyFormCompanyInfo class="absolute" v-if="mainStore.formStep === 0"/>
+                    <LazyCompanyFormServices class="absolute" v-else-if="mainStore.formStep === 1"/>
+                    <LazyCompanyFormEmployees class="absolute" v-else-if="mainStore.formStep === 2"/>
+                    <LazyCompanyFormSuccessRegistration class="absolute" v-else-if="mainStore.formStep === 3"/>
+                </Transition>
+            </div>
+
             <!-- <form>
                 <div class="space-y-12">
                     <div class="border-b border-gray-900/10 pb-12">
@@ -199,4 +205,23 @@
     import {useMainStore} from '~/stores/main';
 
     const mainStore = useMainStore();
+
 </script>
+<style>
+.slide-fade-enter-active {
+    transition: all 0.25s ease-out;
+}
+.slide-fade-leave-active {
+    transition: all 0.2s ease-out;
+}
+
+.slide-fade-enter-from {
+    transform: translateX(40px);
+    opacity: 0;
+}
+
+.slide-fade-leave-to{
+    opacity: 0;
+    transform: translateX(-40px);
+}
+</style>
