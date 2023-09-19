@@ -66,6 +66,23 @@ export const useMainStore = defineStore("mainStore", () => {
     }
   };
 
+  const updateService = async (service) => {
+    try {
+      const {data, error} = await supabaseClient
+          .from('services')
+          .update(service)
+          .eq('id', service.id)
+          .select();
+
+      if(error) throw error;
+      console.log(data, 'dataaa');
+      const idx = businessServices.value.findIndex(x => x.id === service.id);
+      businessServices.value.splice(idx, 1, data[0]);
+    } catch (e) {
+      alert(e.message)
+    }
+  }
+
   const searchUsers = async (text) => {
     try {
       const { data, error } = await supabaseClient
@@ -158,6 +175,7 @@ export const useMainStore = defineStore("mainStore", () => {
     checkForCompany,
     checkForEmployees,
     addServices,
+    updateService,
     updateCompany,
     addEmployees,
     deleteEmployee,
