@@ -10,8 +10,17 @@ export const useMainStore = defineStore("mainStore", () => {
   const currBusinessUrl = ref('')
   const users = ref([]);
   const formStep = ref(2);
-  const businessEmployees = ref([])
+  const businessEmployees = ref([]);
 
+
+  //getters
+  const isOwner = computed(() => {
+    if(!user?.value) return false;
+    return (user.value?.app_metadata.owner === '1')
+  })
+
+
+  //actions
   const createCompany = async () => {
     try {
       const { data, error } = await supabaseClient
@@ -179,6 +188,7 @@ export const useMainStore = defineStore("mainStore", () => {
     updateCompany,
     addEmployees,
     deleteEmployee,
+    isOwner,
     deleteCompany,
   };
 });

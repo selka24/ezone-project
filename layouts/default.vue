@@ -1,19 +1,13 @@
 <template>
-    <lazy-header v-if="isOwner"/>
+    <lazy-header v-if="mainStore.isOwner"/>
     <NuxtPage/>
 </template>
 <script setup>
     import {useMainStore} from "~/stores/main";
-
     const user = useSupabaseUser();
     const mainStore = useMainStore();
 
-    const isOwner = computed(() => {
-        if(!user?.value) return false;
-        return (user.value?.app_metadata.owner === '1')
-    })
-
-    if(user){
+    if(user && !mainStore.businessInfo.id){
         mainStore.checkForCompany();
     }
 </script>

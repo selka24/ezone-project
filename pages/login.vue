@@ -128,6 +128,8 @@ const handleLogin = async () => {
   try {
     const { error } = await client.auth.signInWithPassword(loginData);
     if (error) throw error;
+    const mainStore = useMainStore();
+    mainStore.checkForCompany();
     router.push("/");
   } catch (error) {
     console.log(error);

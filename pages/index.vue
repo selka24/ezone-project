@@ -12,7 +12,7 @@
           <div class="border border-gray-200 rounded-xl max-w-max p-5">
               Useri : {{ user?.email }}
           </div>
-          <NuxtLink to="/business" class="border border-gray-200 rounded-xl max-w-max p-5">
+          <NuxtLink :to="mainStore.businessInfo.id ? '/business' : ''" class="border border-gray-200 rounded-xl max-w-max p-5">
               Company : {{ mainStore.businessInfo.name || 'No company' }}
           </NuxtLink>
         </div>
@@ -23,4 +23,5 @@
 
     const user = useSupabaseUser();
     const mainStore = useMainStore();
+
 </script>

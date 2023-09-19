@@ -5,17 +5,21 @@
    </div>
 </template>
 <script setup>
-   import { useMainStore } from '~/stores/main';
-   const user = useSupabaseUser();
-   const loaded = ref(false)
-   if(!user.value){
-      const router = useRouter();
-      router.push('/login')
-   }
+    definePageMeta({
+        middleware: 'hasBusiness'
+    })
 
-   const mainStore = useMainStore();
-   onMounted(async () => {
-       await mainStore.checkForCompany();
+    import { useMainStore } from '~/stores/main';
+    const user = useSupabaseUser();
+    const loaded = ref(false)
+    const router = useRouter();
+    if(!user.value){
+      router.push('/login')
+    }
+    const mainStore = useMainStore();
+
+    onMounted(async () => {
+       if(!mainStore.businessInfo.id) await mainStore.checkForCompany();
        loaded.value = true;
-   })
+    })
 </script>
