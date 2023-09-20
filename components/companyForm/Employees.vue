@@ -70,6 +70,10 @@
     const handleUserSelect = (user) => {
         const idx = mainStore.businessEmployees.findIndex(x => x.user_id === user.id);
         if(idx < 0) {
+            if(!mainStore.businessInfo.id) {
+                alert('No business id found');
+                return;
+            }
             const employee = transformToEmployee(user);
             employee.company_id = mainStore.businessInfo.id;
             mainStore.businessEmployees = [employee, ...mainStore.businessEmployees];

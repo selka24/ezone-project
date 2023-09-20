@@ -145,69 +145,69 @@
     </div>
 </template>
 <script setup>
-import {useVuelidate} from '@vuelidate/core'
-import {helpers, required, email, minLength, sameAs} from '@vuelidate/validators'
+    import {useVuelidate} from '@vuelidate/core'
+    import {helpers, required, email, minLength, sameAs} from '@vuelidate/validators'
 
-const user = useSupabaseUser();
-const {auth} = useSupabaseClient();
+    const user = useSupabaseUser();
+    const {auth} = useSupabaseClient();
 
-const registerData = reactive({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    user_name: '',
-})
+    const registerData = reactive({
+        email: '',
+        password: '',
+        confirmPassword: '',
+        user_name: '',
+    })
 
-const successReg = ref(false)
+    const successReg = ref(false)
 
-const rules = computed(() => {
-    return {
-        email: {
-            required: helpers.withMessage("The email field is required!", required),
-            email: helpers.withMessage("Invalid email format!", email),
-        },
-        password: {
-            required: helpers.withMessage("The password field is required!", required),
-            minLength: minLength(8),
-        },
-        confirmPassword: {
-            required: helpers.withMessage("The confirm password field is required!", required),
-            sameAs: helpers.withMessage("Passwords don't match", sameAs(registerData.password)),
-        },
-        user_name: {
-            required: helpers.withMessage("The business name field is required!", required),
+    const rules = computed(() => {
+        return {
+            email: {
+                required: helpers.withMessage("The email field is required!", required),
+                email: helpers.withMessage("Invalid email format!", email),
+            },
+            password: {
+                required: helpers.withMessage("The password field is required!", required),
+                minLength: minLength(8),
+            },
+            confirmPassword: {
+                required: helpers.withMessage("The confirm password field is required!", required),
+                sameAs: helpers.withMessage("Passwords don't match", sameAs(registerData.password)),
+            },
+            user_name: {
+                required: helpers.withMessage("The business name field is required!", required),
+            }
+        }
+    })
+
+    const v$ = useVuelidate(rules, registerData);
+
+
+
+    const handleSignup = async () => {
+        const valid = await v$.value.$validate();
+        if(!valid) return;
+        try {
+            const { error } = await auth.signUp({
+                email: registerData.email,
+                password: registerData.password,
+                options: {
+                    data: {
+                        full_name: registerData.user_name,
+                    }
+                }
+            });
+            if(error) throw error;
+            successReg.value = true;
+        } catch (error) {
+            alert(error.message);
         }
     }
-})
-
-const v$ = useVuelidate(rules, registerData);
 
 
-
-const handleSignup = async () => {
-    const valid = await v$.value.$validate();
-    if(!valid) return;
-    try {
-        const { error } = await auth.signUp({
-            email: registerData.email,
-            password: registerData.password,
-            options: {
-                data: {
-                    full_name: registerData.user_name,
-                }
-            }
-        });
-        if(error) throw error;
-        successReg.value = true;
-    } catch (error) {
-        alert(error.message);
-    }
-}
-
-
-watchEffect(() => {
-    if (user.value) {
-        navigateTo('/')
-    }
-})
+    watchEffect(() => {
+        if (user.value) {
+            navigateTo('/')
+        }
+    })
 </script>

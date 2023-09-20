@@ -2,7 +2,6 @@ export const useMainStore = defineStore("mainStore", () => {
   const supabaseClient = useSupabaseClient();
   const user = useSupabaseUser();
   const businessInfo = ref({
-    id: null,
     name: "",
     description: "",
     logo_url: "",
@@ -10,7 +9,7 @@ export const useMainStore = defineStore("mainStore", () => {
   const businessServices = ref([]);
   const currBusinessUrl = ref('')
   const users = ref([]);
-  const formStep = ref(2);
+  const formStep = ref(0);
   const businessEmployees = ref([]);
 
 
@@ -60,11 +59,8 @@ export const useMainStore = defineStore("mainStore", () => {
   };
 
   const addServices = async (service) => {
+    console.log(businessServices.value, "businessServices");
     try {
-      console.log(businessServices.value, "businessServices");
-      if (businessServices.value.length <= 0) {
-        return console.log("no businessServices");
-      }
       const { data, error } = await supabaseClient
           .from("services")
           .insert(service)
@@ -111,7 +107,7 @@ export const useMainStore = defineStore("mainStore", () => {
 
   const checkForCompany = async () => {
     if(!user?.value) return;
-    console.log(user.value.id, "useraaaaa");
+    let response = false;
     try {
       const { data, error } = await supabaseClient
           .from("companies")
@@ -120,16 +116,17 @@ export const useMainStore = defineStore("mainStore", () => {
 
       if (error) throw error;
       if(data[0]) {
+        response = true;
         const {services, employees, ...rest} = data[0];
         currBusinessUrl.value = rest.url;
         businessInfo.value = rest;
-        console.log(employees, 'employees')
         businessEmployees.value = employees;
         businessServices.value = services;
       }
     } catch (error) {
       alert(error);
     }
+    return response;
   };
 
   const checkForEmployees = async () => {

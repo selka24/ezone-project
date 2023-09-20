@@ -26,7 +26,7 @@
                     <div class="sm:col-span-4">
                         <div class="block text-sm font-medium leading-6 text-gray-900">Business Logo</div>
                         <div class="mt-2">
-                            <LogoUpload v-model:path="mainStore.businessInfo.logo_url" @upload="mainStore.updateCompany"/>
+                            <LogoUpload v-model:path="mainStore.businessInfo.logo_url" />
                         </div>
                     </div>
 

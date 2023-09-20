@@ -13,7 +13,7 @@
               Useri : {{ user?.email }}
           </div>
           <NuxtLink :to="mainStore.businessInfo.id ? '/admin' : '/business'" class="border border-gray-200 rounded-xl max-w-max p-5">
-              Company : {{ mainStore.businessInfo.name || 'No company' }}
+              Company : {{ mainStore.businessInfo.name || (mainStore.isOwner ? 'Create company' : 'You need owner permissions') }}
           </NuxtLink>
         </div>
     </div>
@@ -23,5 +23,6 @@
 
     const user = useSupabaseUser();
     const mainStore = useMainStore();
+
 
 </script>

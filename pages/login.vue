@@ -90,50 +90,50 @@
   </div>
 </template>
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { helpers, required, email, minLength } from "@vuelidate/validators";
+    import { useVuelidate } from "@vuelidate/core";
+    import { helpers, required, email, minLength } from "@vuelidate/validators";
 
-const {auth} = useSupabaseClient();
-const user = useSupabaseUser();
-const loading = ref(false)
+    const {auth} = useSupabaseClient();
+    const user = useSupabaseUser();
+    const loading = ref(false)
 
-const loginData = reactive({
-  email: "",
-  password: "",
-});
+    const loginData = reactive({
+      email: "",
+      password: "",
+    });
 
-const rules = computed(() => {
-    return {
-        email: {
-            required: helpers.withMessage("The email field is required!", required),
-            email: helpers.withMessage("Invalid email format!", email),
-        },
-        password: {
-            required: helpers.withMessage("The password field is required!", required),
-            minLength: minLength(8),
-        },
-    }
-});
+    const rules = computed(() => {
+        return {
+            email: {
+                required: helpers.withMessage("The email field is required!", required),
+                email: helpers.withMessage("Invalid email format!", email),
+            },
+            password: {
+                required: helpers.withMessage("The password field is required!", required),
+                minLength: minLength(8),
+            },
+        }
+    });
 
-const v$ = useVuelidate(rules, loginData);
+    const v$ = useVuelidate(rules, loginData);
 
-const handleLogin = async () => {
-    loading.value = true;
-    const valid = await v$.value.$validate();
-    if (!valid) return;
-    try {
-    const { error } = await auth.signInWithPassword(loginData);
-        if (error) throw error;
-    } catch (error) {
-        alert(error);
-    } finally {
-        loading.value = false;
-    }
-};
+    const handleLogin = async () => {
+        loading.value = true;
+        const valid = await v$.value.$validate();
+        if (!valid) return;
+        try {
+        const { error } = await auth.signInWithPassword(loginData);
+            if (error) throw error;
+        } catch (error) {
+            alert(error);
+        } finally {
+            loading.value = false;
+        }
+    };
 
-watchEffect(() => {
-    if (user.value) {
-        navigateTo('/')
-    }
-})
+    watchEffect(() => {
+        if (user.value) {
+            navigateTo('/')
+        }
+    })
 </script>
