@@ -5,21 +5,16 @@
    </div>
 </template>
 <script setup>
-    definePageMeta({
-        middleware: 'hasbusiness'
-    })
-
     import { useMainStore } from '~/stores/main';
-    const user = useSupabaseUser();
-    const loaded = ref(false)
-    const router = useRouter();
-    if(!user.value){
-      router.push('/login')
-    }
     const mainStore = useMainStore();
+    const loaded = ref(false);
+    const redirect = () => {
+        if(mainStore.businessInfo.id){
+            navigateTo('/admin')
+        }
+    }
 
-    onMounted(async () => {
-       if(!mainStore.businessInfo.id) await mainStore.checkForCompany();
-       loaded.value = true;
-    })
+    if(!mainStore.businessInfo.id) await mainStore.checkForCompany();
+    loaded.value = true;
+    redirect();
 </script>

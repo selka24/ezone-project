@@ -1,11 +1,6 @@
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(to => {
+    // skip middleware on server
+    // if (process.server) return
     const user = useSupabaseUser();
-    const noAuthPaths = [
-        '/register',
-        '/login'
-    ]
-    if (user?.value && noAuthPaths.findIndex(x => x === to.path) >= 0) {
-        return navigateTo('/')
-    }
+    if(!user.value) return navigateTo('/');
 })
-  

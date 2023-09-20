@@ -93,12 +93,8 @@
 import { useVuelidate } from "@vuelidate/core";
 import { helpers, required, email, minLength } from "@vuelidate/validators";
 
-definePageMeta({
-    middleware: 'auth'
-})
-
-const client = useSupabaseClient();
-const router = useRouter();
+const {auth} = useSupabaseClient();
+const user = useSupabaseUser();
 const loading = ref(false)
 
 const loginData = reactive({
@@ -123,18 +119,21 @@ const v$ = useVuelidate(rules, loginData);
 
 const handleLogin = async () => {
     loading.value = true;
-  const valid = await v$.value.$validate();
-  if (!valid) return;
-  try {
-    const { error } = await client.auth.signInWithPassword(loginData);
-    if (error) throw error;
-    const mainStore = useMainStore();
-    mainStore.checkForCompany();
-    router.push("/");
-  } catch (error) {
-    console.log(error);
-    alert(error);
-  }
-  loading.value = false;
+    const valid = await v$.value.$validate();
+    if (!valid) return;
+    try {
+    const { error } = await auth.signInWithPassword(loginData);
+        if (error) throw error;
+    } catch (error) {
+        alert(error);
+    } finally {
+        loading.value = false;
+    }
 };
+
+watchEffect(() => {
+    if (user.value) {
+        navigateTo('/')
+    }
+})
 </script>

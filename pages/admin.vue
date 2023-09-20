@@ -28,12 +28,14 @@
     </div>
 </template>
 <script setup>
-    const user = useSupabaseUser();
-    if(!user?.value) {
-        const router = useRouter();
-        router.push('/login');
-    }
-
+    // const user = useSupabaseUser();
+    // if(!user?.value) {
+    //     const router = useRouter();
+    //     router.push('/login');
+    // }
+    definePageMeta({
+        middleware: 'auth'
+    })
     import {useMainStore} from "~/stores/main";
     const {public: {logoUrl}} = useRuntimeConfig();
     const mainStore = useMainStore();

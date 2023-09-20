@@ -17,28 +17,28 @@
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form class="space-y-6" @submit.prevent="handleSignup">
 
-            <!-- <div>
-                <label for="business" class="block text-sm font-medium leading-6 text-gray-900">
-                    Business name
+            <div>
+                <label for="username" class="block text-sm font-medium leading-6 text-gray-900">
+                    Username
                 </label>
                 <div class="mt-2">
                     <input
-                        v-model="registerData.business_name"
-                        @change="v$.business_name.$touch"
-                        id="business"
-                        name="business"
+                        v-model="registerData.user_name"
+                        @change="v$.user_name.$touch"
+                        id="username"
+                        name="username"
                         type="text"
                         required
                         class="block w-full rounded-md border-0 px-1.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
                     <span
-                        v-if="v$.business_name.$error"
+                        v-if="v$.user_name.$error"
                         class="mt-2 text-sm text-red-500"
                     >
-                        {{ v$.business_name.$errors[0].$message }}
+                        {{ v$.user_name.$errors[0].$message }}
                     </span>
                 </div>
-            </div> -->
+            </div>
 
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
@@ -145,26 +145,17 @@
     </div>
 </template>
 <script setup>
-/*
-    Requirements
-    1. email
-    2. password
-    3. business name (uniqe)
-*/
 import {useVuelidate} from '@vuelidate/core'
 import {helpers, required, email, minLength, sameAs} from '@vuelidate/validators'
 
-definePageMeta({
-    middleware: 'auth'
-})
-
-const client = useSupabaseClient();
+const user = useSupabaseUser();
+const {auth} = useSupabaseClient();
 
 const registerData = reactive({
     email: '',
     password: '',
     confirmPassword: '',
-    // business_name: '',
+    user_name: '',
 })
 
 const successReg = ref(false)
@@ -183,9 +174,9 @@ const rules = computed(() => {
             required: helpers.withMessage("The confirm password field is required!", required),
             sameAs: helpers.withMessage("Passwords don't match", sameAs(registerData.password)),
         },
-        // business_name: {
-        //     required: helpers.withMessage("The business name field is required!", required),
-        // }
+        user_name: {
+            required: helpers.withMessage("The business name field is required!", required),
+        }
     }
 })
 
@@ -197,14 +188,14 @@ const handleSignup = async () => {
     const valid = await v$.value.$validate();
     if(!valid) return;
     try {
-        const {data, error} = await client.auth.signUp({
+        const { error } = await auth.signUp({
             email: registerData.email,
             password: registerData.password,
-            // options: {
-            //     data: {
-            //         business_name: registerData.business_name,
-            //     }
-            // }
+            options: {
+                data: {
+                    full_name: registerData.user_name,
+                }
+            }
         });
         if(error) throw error;
         successReg.value = true;
@@ -212,4 +203,11 @@ const handleSignup = async () => {
         alert(error.message);
     }
 }
+
+
+watchEffect(() => {
+    if (user.value) {
+        navigateTo('/')
+    }
+})
 </script>

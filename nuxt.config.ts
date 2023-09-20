@@ -24,7 +24,12 @@ export default defineNuxtConfig({
     'nuxt-icon'
   ],
   supabase:{
-    redirect: false
+    redirect: false,
+    // redirectOptions: {
+    //   login: '/login',
+    //   callback: '/redirect',
+    //   exclude: ['/register', '/user/*']
+    // }
   },
   imports: {
       dirs: ['./stores'],
@@ -43,5 +48,8 @@ export default defineNuxtConfig({
     public: {
       logoUrl: `${process.env.SUPABASE_URL}/storage/v1/object/public/avatars`
     }
+  },
+  experimental:{
+    payloadExtraction: false,
   }
 })

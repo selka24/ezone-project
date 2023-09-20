@@ -1,6 +1,6 @@
 <template>
     <div>
-        <lazy-header v-if="mainStore.isOwner"/>
+        <lazy-header v-if="user"/>
         <NuxtPage/>
     </div>
 </template>
