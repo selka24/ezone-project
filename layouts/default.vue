@@ -1,6 +1,8 @@
 <template>
-    <lazy-header v-if="mainStore.isOwner"/>
-    <NuxtPage/>
+    <div>
+        <lazy-header v-if="mainStore.isOwner"/>
+        <NuxtPage/>
+    </div>
 </template>
 <script setup>
     import {useMainStore} from "~/stores/main";

@@ -1,7 +1,7 @@
 <template>
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <NuxtImg
+            <img
             class="mx-auto w-auto"
             height="100"
             src="/images/logo.png"
@@ -16,7 +16,7 @@
 
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form class="space-y-6" @submit.prevent="handleSignup">
-            
+
             <!-- <div>
                 <label for="business" class="block text-sm font-medium leading-6 text-gray-900">
                     Business name
@@ -39,7 +39,7 @@
                     </span>
                 </div>
             </div> -->
-            
+
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-gray-900">
                     Email address

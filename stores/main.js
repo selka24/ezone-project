@@ -2,6 +2,7 @@ export const useMainStore = defineStore("mainStore", () => {
   const supabaseClient = useSupabaseClient();
   const user = useSupabaseUser();
   const businessInfo = ref({
+    id: null,
     name: "",
     description: "",
     logo_url: "",

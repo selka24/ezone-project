@@ -7,7 +7,7 @@
                     <div>Emri: <b>{{mainStore.businessInfo.name}}</b></div>
                     <div>Pershkrimi: <b>{{mainStore.businessInfo.description}}</b></div>
                 </div>
-                <nuxt-img class="ml-auto w-auto h-[100px]"  v-if="mainStore.businessInfo.logo_url" :src="`${logoUrl}/${mainStore.businessInfo.logo_url}`"/>
+                <img class="ml-auto w-auto h-[100px]"  v-if="mainStore.businessInfo.logo_url" :src="`${logoUrl}/${mainStore.businessInfo.logo_url}`"/>
             </div>
             <div>
                 <CompanyFormStepHeader title="Sherbimet" description="Ketu mund te shikosh dhe menaxhosh sherbimet."/>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <NuxtImg
+      <img
         class="mx-auto w-auto"
         height="100"
         src="/images/logo.png"

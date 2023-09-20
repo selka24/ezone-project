@@ -10,16 +10,15 @@ export default defineNuxtConfig({
         mode: 'out-in' // default
     },
   },
-  image: {
-    domains: ['vzyfityiyitbvrnvhbld.supabase.co'],
-    screens: {
-      icon: 40,
-      avatar: 24
-    }
-  },
+  // image: {
+  //   domains: ['vzyfityiyitbvrnvhbld.supabase.co'],
+  //   screens: {
+  //     icon: 40,
+  //     avatar: 24
+  //   }
+  // },
   devtools: { enabled: false },
   modules: [
-    '@nuxt/image-edge',
     '@nuxtjs/supabase',
     '@pinia/nuxt',
     'nuxt-icon'

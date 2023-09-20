@@ -5,9 +5,9 @@
    </div>
 </template>
 <script setup>
-    // definePageMeta({
-    //     middleware: 'hasBusiness'
-    // })
+    definePageMeta({
+        middleware: 'hasbusiness'
+    })
 
     import { useMainStore } from '~/stores/main';
     const user = useSupabaseUser();
