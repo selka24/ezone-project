@@ -105,14 +105,14 @@ export const useMainStore = defineStore("mainStore", () => {
     }
   };
 
-  const checkForCompany = async () => {
-    if(!user?.value) return;
+  const checkForCompany = async (url) => {
+    // if(!user?.value) return;
     let response = false;
     try {
       const { data, error } = await supabaseClient
           .from("companies")
           .select(`*, services (*), employees (*)`)
-          .eq("company_owner", user.value.id);
+          .eq(`${url ? 'url' : 'company_owner'}`, (url ? url : user.value.id));
 
       if (error) throw error;
       if(data[0]) {
@@ -177,6 +177,7 @@ export const useMainStore = defineStore("mainStore", () => {
     users,
     businessEmployees,
     currBusinessUrl,
+    isOwner,
     searchUsers,
     createCompany,
     checkForCompany,
@@ -186,7 +187,6 @@ export const useMainStore = defineStore("mainStore", () => {
     updateCompany,
     addEmployees,
     deleteEmployee,
-    isOwner,
     deleteCompany,
   };
 });

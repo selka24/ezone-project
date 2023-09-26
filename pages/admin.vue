@@ -6,18 +6,19 @@
                 <div>
                     <div>Emri: <b>{{mainStore.businessInfo.name}}</b></div>
                     <div>Pershkrimi: <b>{{mainStore.businessInfo.description}}</b></div>
+                    <div>
+                        Url:
+                        <nuxt-link :to="`/user/${mainStore.businessInfo.url}`"><b>{{`${host}/${mainStore.businessInfo.url}`}}</b></nuxt-link>
+                    </div>
                 </div>
                 <img class="ml-auto w-auto h-[100px]"  v-if="mainStore.businessInfo.logo_url" :src="`${logoUrl}/${mainStore.businessInfo.logo_url}`"/>
             </div>
             <div>
-                <CompanyFormStepHeader title="Sherbimet" description="Ketu mund te shikosh dhe menaxhosh sherbimet."/>
-            </div>
-            <div>
-                <AdminServiceList/>
+                <Services/>
             </div>
         </div>
-        <div class="border rounded-xl p-2 w-full">
-            <div class="font-semibold text-xl mb-5">Punonjesit</div>
+        <div class="flex flex-col border rounded-xl gap-y-2 p-2 w-full">
+            <div class="font-semibold text-xl mb-3">Punonjesit</div>
             <LazyAdminEmployeeCard
                 class="border-b pb-5"
                 v-for="employee in mainStore.businessEmployees"
@@ -29,13 +30,14 @@
 </template>
 <script setup>
     import {useMainStore} from "~/stores/main";
+    import Services from "~/components/companyForm/Services.vue";
     const mainStore = useMainStore();
     const {public: {logoUrl}} = useRuntimeConfig();
+    const host = ref('ezone.com');
+    if(!process.server){
+        host.value = window.location.host
+    }
     definePageMeta({
         middleware: ['auth', 'company']
     })
-
-
-
-
 </script>

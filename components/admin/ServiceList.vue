@@ -50,7 +50,7 @@
                     <p class="mt-1 truncate text-xs leading-5 text-gray-500">Kohezgjatja: {{ displayDuration(service.duration) }}</p>
                 </div>
             </div>
-            <div class="flex ml-auto gap-x-5">
+            <div class="flex ml-auto gap-x-5" v-if="mainStore.isOwner">
                 <div v-if="editId === service.id">
                     <div class="flex w-[100px] rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                         <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">ALL</span>

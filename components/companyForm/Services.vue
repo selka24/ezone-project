@@ -1,8 +1,8 @@
 <template>
         <div class="space-y-12">
             <div class="border-b border-gray-900/10 pb-12">
-                <CompanyFormStepHeader title="Business Services" description="Below you will add the services your business offers."/>
-                <div class="mt-10 grid gap-x-6 gap-y-8 sm:grid-cols-6">
+                <CompanyFormStepHeader title="Sherbimet" description="Ketu mund te shikosh dhe menaxhosh sherbimet."/>
+                <div class="mt-10 grid gap-x-2 gap-y-8 sm:grid-cols-6">
                     <div class="sm:col-span-2">
                         <label for="service-name" class="block text-sm font-medium leading-6 text-gray-900">Service name</label>
                         <div class="mt-2">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
 
-                    <div class="sm:col-span-2 flex gap-5">
+                    <div class="sm:col-span-2 md:col-span-3 flex gap-5">
                         <div>
                             <label for="service-duration" class="block text-sm font-medium leading-6 text-gray-900">Duration</label>
                             <div class="mt-2">
@@ -75,7 +75,7 @@
 <script setup>
     import ServiceList from "~/components/admin/ServiceList.vue";
     import { useMainStore } from '~/stores/main';
-    import {useVuelidate} from '@vuelidate/core';
+    // import {useVuelidate} from '@vuelidate/core';
     import {required} from '@vuelidate/validators';
     const mainStore = useMainStore();
 
