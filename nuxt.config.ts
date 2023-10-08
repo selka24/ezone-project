@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app:{
+    head: {
+      htmlAttrs: {
+        'data-theme': 'valentine'
+      }
+    },
     pageTransition: {
       name: 'page',
       mode: 'out-in' // default

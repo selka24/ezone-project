@@ -11,7 +11,7 @@
                         <nuxt-link :to="`/user/${mainStore.businessInfo.url}`"><b>{{`${host}/${mainStore.businessInfo.url}`}}</b></nuxt-link>
                     </div>
                 </div>
-                <img class="ml-auto w-auto h-[100px]"  v-if="mainStore.businessInfo.logo_url" :src="`${logoUrl}/${mainStore.businessInfo.logo_url}`"/>
+                <img class="ml-auto w-auto h-[100px]"  v-if="mainStore.businessInfo.logo_url" :src="`${logoUrl}/${mainStore.businessInfo.logo_url}`" alt="business-logo"/>
             </div>
             <div>
                 <Services/>

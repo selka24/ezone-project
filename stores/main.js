@@ -106,7 +106,7 @@ export const useMainStore = defineStore("mainStore", () => {
   };
 
   const checkForCompany = async (url) => {
-    // if(!user?.value) return;
+    if(!user?.value && !url) return;
     let response = false;
     try {
       const { data, error } = await supabaseClient

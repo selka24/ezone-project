@@ -1,8 +1,14 @@
+import {useMainStore} from "~/stores/main";
+
 export const useBookingStore = defineStore("bookingStore", () => {
     const supabaseClient = useSupabaseClient();
     const bookingCompany = ref();
-    const bookings = ref(null);
-    const selectedService = ref(null);
+    const currentBookings = ref([]);
+    const availableTimes = ref([]);
+    const selectedTime = ref('')
+    const selectedService = ref([]);
+    const selectedDate = ref(new Date());
+
     const getBookingCompany = async (url) => {
         try {
             const {data: [company], error} = await supabaseClient
@@ -31,28 +37,35 @@ export const useBookingStore = defineStore("bookingStore", () => {
         //     .select('duration')
         //     .eq('id', serviceId)
         try {
-            const {date: allBookings, error: allBookingsError} = await supabaseClient
+            const {data: allBookings, error: allBookingsError} = await supabaseClient
                 .from('bookings')
                 .select('start_time, end_time')
-                .eq('service_id', serviceId)
                 .eq('company_id', companyId)
                 .eq('status', 'upcoming') // Optional: Only consider upcoming bookings
-                .eq('start_time', selectedDate);
+                .gte('start_time', selectedDate);
 
             if(allBookingsError) throw allBookingsError;
-
-            calculateAvailableTimes({ selectedDate, bookedTimes: allBookings, serviceDuration })
+            console.log(allBookings, 'allBookings')
+            currentBookings.value = allBookings;
+            // calculateAvailableTimes({ selectedDate, bookedTimes: allBookings, serviceDuration })
         } catch (error) {
             alert(`getBookingsByDate -- ${error.message}`);
         }
     }
 
     return {
+        availableTimes,
         bookingCompany,
         selectedService,
-        bookings,
+        selectedTime,
+        selectedDate,
+        currentBookings,
         getBookingCompany,
         getBookingsByDate,
     }
 
 })
+
+if (import.meta.hot) {
+    import.meta.hot.accept(acceptHMRUpdate(useBookingStore, import.meta.hot));
+}

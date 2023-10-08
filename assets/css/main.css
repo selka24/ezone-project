@@ -16,6 +16,10 @@
       }
     }
 }
+.collapse > input[type="checkbox"], .collapse > input[type="radio"] {
+    width: auto;
+}
+
 
 
 .dropdown-enter-active {

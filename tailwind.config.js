@@ -9,19 +9,18 @@ module.exports = {
     "./app.vue",
   ],
   theme: {
-    extend: {
-      fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-      },
-    },
+    // extend: {
+    //   fontFamily: {
+    //     sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+    //   },
+    // },
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    // require('@tailwindcss/typography'),
     require("daisyui"),
-    require("@tailwindcss/forms")
+    // require("@tailwindcss/forms")
   ],
-
   daisyui: {
-    themes: ['light', 'dark', 'valentine']
+    themes: ['light', 'valentine']
   }
 };
