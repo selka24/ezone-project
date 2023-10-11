@@ -222,20 +222,4 @@
     }
 </script>
 <style>
-.slide-fade-enter-active {
-    transition: all 0.25s ease-out;
-}
-.slide-fade-leave-active {
-    transition: all 0.2s ease-out;
-}
-
-.slide-fade-enter-from {
-    transform: translateX(40px);
-    opacity: 0;
-}
-
-.slide-fade-leave-to{
-    opacity: 0;
-    transform: translateX(-40px);
-}
 </style>

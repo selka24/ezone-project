@@ -1,7 +1,7 @@
 <template>
     <div class="px-5 flex justify-center mt-10">
         <div v-if="bookingCompany?.id" class="card items-center w-full max-w-lg bg-base-100 shadow-2xl h-[90vh]">
-            <div class="card-body w-full">
+            <div class="card-body w-full h-full">
                 <div class="flex flex-col justify-between items-center gap-x-5 gap-y-2 mb-5">
                     <h3 class="card-title">
                         {{bookingCompany.name}}
@@ -36,32 +36,25 @@
 <!--                    </div>-->
 <!--                </div>-->
 
-                <div v-if="true" class="rounded-none join join-vertical w-full text-left">
-                    <div class=" collapse join-item border-x-0 border border-base-200">
-                        <input type="radio" name="my-accordion-4"  value="sherbimet" v-model="accordion"/>
-                        <div class="collapse-title font-medium">
-                            Sherbimet
-                        </div>
-                        <div class="collapse-content">
+                <div class="rounded-none w-full text-left h-full flex flex-col">
+                    <Transition name="slide-fade" mode="out-in">
+                        <div v-if="bookStep === 1">
+                            <div class="font-medium mb-5">
+                                Zgjidh Sherbimin
+                            </div>
                             <service-select/>
                         </div>
-                    </div>
-                    <div class="collapse join-item border border-base-200 border-x-0">
-                        <input type="radio" name="my-accordion-4" value="data" v-model="accordion" />
-                        <div class="collapse-title font-medium">
-                            Data
-<!--                            - {{format(bookingStore.selectedDate, 'EEEE d LLLL')}}-->
+                        <div v-else-if="bookStep === 2">
+                            <div class="font-medium mb-5">
+                                Zgjidh Daten
+    <!--                            - {{format(bookingStore.selectedDate, 'EEEE d LLLL')}}-->
+                            </div>
+                            <booking-calendar />
                         </div>
-                        <div class="collapse-content">
-                            <lazy-booking-calendar />
-                        </div>
-                    </div>
-                    <div class="collapse join-item border border-base-200 border-x-0">
-                        <input type="radio" name="my-accordion-4" value="orari" v-model="accordion" />
-                        <div class="collapse-title font-medium">
-                            Orari
-                        </div>
-                        <div class="collapse-content">
+                        <div v-else-if="bookStep === 3">
+                            <div class="font-medium">
+                                Zgjidh Orarin
+                            </div>
                             <div class="flex flex-col gap-2 max-h-[370px] overflow-y-scroll no-scrollbar">
                                 <div class="form-control max-w-max" v-for="time in bookingStore.availableTimes" :key="time">
                                     <label class="label cursor-pointer">
@@ -71,9 +64,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Transition>
+                    <button @click="() => {bookStep < 3 ? bookStep++ : bookStep--}" class="btn btn-primary mt-auto self-center">Vazhdo</button>
                 </div>
-
             </div>
         </div>
         <company-card-skeleton v-else />
@@ -86,7 +79,7 @@
     import ServiceSelect from "~/components/booking/ServiceSelect.vue";
     import CompanyCardSkeleton from "~/components/loading/CompanyCardSkeleton.vue";
     const {public: {logoUrl}} = useRuntimeConfig();
-    const bookSteps = ['Sherbimet', 'Data', 'Orari']
+    const bookStep = ref(1);
     const route = useRoute();
     const {username} = route.params;
     const bookingStore = useBookingStore();

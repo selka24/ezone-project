@@ -5,6 +5,7 @@
                 :expanded="true"
                 mode="date"
                 transparent
+                color="pink"
                 view="weekly"
                 :min-date="new Date()"
                 :borderless="true"
@@ -197,6 +198,9 @@
     // }
 </script>
 
-<style scoped>
-
+<style>
+.vc-pink{
+    --vc-accent-600: #e96d7b;
+    --vc-white: #323232;
+}
 </style>
