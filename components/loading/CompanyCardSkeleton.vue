@@ -1,6 +1,6 @@
 <template>
-    <div class="card items-center w-full max-w-lg bg-base-100 shadow-2xl h-[90vh]">
-        <div class="card-body w-full h-[90vh]">
+    <div class="card items-center w-full max-w-lg bg-base-100 shadow-2xl">
+        <div class="card-body w-full">
             <div class="flex flex-col justify-between items-center gap-x-5 gap-y-2 mb-8">
                 <div class="card-title bg-base-300 w-[50%] animate-pulse h-7 rounded-2xl"></div>
                 <div class="w-[100px] h-[100px] animate-pulse rounded-full bg-base-300"/>

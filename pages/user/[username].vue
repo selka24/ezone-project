@@ -1,7 +1,7 @@
 <template>
-    <div class="px-5 flex justify-center mt-10">
-        <div v-if="bookingCompany?.id" class="card items-center w-full max-w-lg bg-base-100 shadow-2xl h-[90vh]">
-            <div class="card-body w-full h-full">
+    <div class="px-5 flex justify-center mt-10 ">
+        <div v-if="bookingCompany?.id" class="card items-center w-full max-w-lg bg-base-100 shadow-2xl h-[80vh]">
+            <div class="card-body w-full overflow-hidden">
                 <div class="flex flex-col justify-between items-center gap-x-5 gap-y-2 mb-5">
                     <h3 class="card-title">
                         {{bookingCompany.name}}
@@ -12,60 +12,37 @@
                         alt="business-logo"/>
                     <p>{{ bookingCompany.description }}</p>
                 </div>
-<!--                <div class="text-sm breadcrumbs mb-2 overflow-y-hidden">-->
-<!--                    <ul>-->
-<!--                        <li @click.prevent="() => accordion = step" v-for="step in bookSteps" :key="step">-->
-<!--                            <span>{{ step }}</span>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-
-<!--                <div v-if="accordion === 'Sherbimet'" class="h-full flex flex-col">-->
-<!--                    <service-select/>-->
-<!--                    <button class="btn btn-primary mt-auto">Shiko Datat</button>-->
-<!--                </div>-->
-<!--                <div v-else-if="accordion === 'Data'">-->
-<!--                    <lazy-booking-calendar />-->
-<!--                </div>-->
-<!--                <div v-else-if="accordion === 'Orari'" class="flex flex-wrap gap-2">-->
-<!--                    <div class="form-control" v-for="time in bookingStore.availableTimes" :key="time">-->
-<!--                        <label class="label cursor-pointer">-->
-<!--                            <input type="radio" name="times" :value="time" v-model="bookingStore.selectedTime" class="radio radio-primary" />-->
-<!--                            <span class="label-text">{{ time }}</span>-->
-<!--                        </label>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-                <div class="rounded-none w-full text-left h-full flex flex-col">
-                    <Transition name="slide-fade" mode="out-in">
-                        <div v-if="bookStep === 1">
-                            <div class="font-medium mb-5">
-                                Zgjidh Sherbimin
-                            </div>
-                            <service-select/>
-                        </div>
-                        <div v-else-if="bookStep === 2">
-                            <div class="font-medium mb-5">
-                                Zgjidh Daten
-    <!--                            - {{format(bookingStore.selectedDate, 'EEEE d LLLL')}}-->
-                            </div>
-                            <booking-calendar />
-                        </div>
-                        <div v-else-if="bookStep === 3">
-                            <div class="font-medium">
-                                Zgjidh Orarin
-                            </div>
-                            <div class="flex flex-col gap-2 max-h-[370px] overflow-y-scroll no-scrollbar">
-                                <div class="form-control max-w-max" v-for="time in bookingStore.availableTimes" :key="time">
-                                    <label class="label cursor-pointer">
-                                        <span class="label-text mr-2">{{ time }}</span>
-                                        <input type="radio" name="times" :value="time" v-model="bookingStore.selectedTime" class="radio radio-primary" />
-                                    </label>
+                <div class="w-full text-left h-full flex flex-col">
+                    <div class="flex flex-grow-0 flex-shrink mb-5 border-b border-secondary-content/20 pb-4">
+                        <div class="relative flex w-full justify-center">
+                            <Icon name="ion:arrow-back-outline" class="cursor-pointer absolute left-0 top-1/2 -translate-y-1/2" @click="changeStep(0)"/>
+                            <transition mode="out-in">
+                                <div :key="bookStep" class="font-medium">
+                                    {{steps[bookStep]}}
                                 </div>
-                            </div>
+                            </transition>
                         </div>
-                    </Transition>
-                    <button @click="() => {bookStep < 3 ? bookStep++ : bookStep--}" class="btn btn-primary mt-auto self-center">Vazhdo</button>
+                    </div>
+                    <div class="flex flex-auto border-b border-secondary-content/20 pb-5 mb-5 overflow-hidden overflow-y-scroll no-scrollbar">
+                        <div class="w-full">
+                            <Transition name="slide-fade" mode="out-in">
+                                <service-select v-if="bookStep === 1"/>
+                                <!--                            - {{format(bookingStore.selectedDate, 'EEEE d LLLL')}}-->
+                                <booking-calendar v-else-if="bookStep === 2"/>
+                                <div v-else-if="bookStep === 3" class="flex flex-col gap-2">
+                                    <div class="form-control max-w-max" v-for="time in bookingStore.availableTimes" :key="time">
+                                        <label class="label cursor-pointer">
+                                            <span class="label-text mr-2">{{ time }}</span>
+                                            <input type="radio" name="times" :value="time" v-model="bookingStore.selectedTime" class="radio radio-primary" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </Transition>
+                        </div>
+                    </div>
+                    <div class="flex flex-[0_1_50px] justify-center items-center">
+                        <button @click="changeStep" class="btn btn-primary">Vazhdo</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -84,24 +61,27 @@
     const {username} = route.params;
     const bookingStore = useBookingStore();
     const mainStore = useMainStore();
-    const accordion = ref('Sherbimet');
 
 
     const bookingCompany = computed(() => {
         return mainStore.businessInfo
     })
 
+    const steps = {
+        1: 'Zgjidh Sherbimin',
+        2: 'Zgjidh Daten',
+        3: 'Zgjidh Orarin'
+    }
+
+    const changeStep = (back) => {
+        if(back === 0){
+            bookStep.value > 1 && bookStep.value--;
+        } else {
+            bookStep.value++;
+        }
+    }
+
     if(username){
         mainStore.checkForCompany(username);
     }
 </script>
-<style scoped>
-.collapse-title{
-    padding: 0.75rem 3rem 0.75rem 0;
-    min-height: min-content !important;
-}
-.collapse-content{
-    padding-left: 0;
-    padding-right: 0;
-}
-</style>
