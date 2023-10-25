@@ -13,23 +13,37 @@
                     <p>{{ bookingCompany.description }}</p>
                 </div>
                 <div class="w-full text-left h-full flex flex-col">
-                    <div class="flex flex-grow-0 flex-shrink mb-5 border-b border-secondary-content/20 pb-4">
-                        <div class="relative flex w-full justify-center">
-                            <Icon name="ion:arrow-back-outline" class="cursor-pointer absolute left-0 top-1/2 -translate-y-1/2" @click="changeStep(0)"/>
-                            <transition mode="out-in">
-                                <div :key="bookStep" class="font-medium">
-                                    {{steps[bookStep]}}
-                                </div>
-                            </transition>
-                        </div>
-                    </div>
-                    <div class="flex flex-auto border-b border-secondary-content/20 pb-5 mb-5 overflow-hidden overflow-y-scroll no-scrollbar">
+<!--                    <div class="flex flex-grow-0 flex-shrink mb-5 border-b border-secondary-content/20 pb-4">-->
+<!--                        <div class="relative flex w-full">-->
+<!--                            <Icon name="ion:arrow-back-outline" class="cursor-pointer absolute left-0 top-1/2 -translate-y-1/2" @click="changeStep(0)"/>-->
+<!--                            <transition mode="out-in">-->
+<!--                                <div :key="bookStep" class="font-medium">-->
+<!--                                    {{steps[bookStep]}}-->
+<!--                                </div>-->
+<!--                            </transition>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="flex flex-auto relative border-secondary-content/20 pb-5 mb-5 overflow-hidden overflow-y-scroll no-scrollbar h-full max-h-[500px]" id="parent-steps">
                         <div class="w-full">
-                            <Transition name="slide-fade" mode="out-in">
-                                <service-select v-if="bookStep === 1"/>
+<!--                            <Transition name="slide-fade" mode="out-in">-->
+                            <div class="h-[500px]" id="stepper-1">
+                                <div class="flex mb-5 border-b border-secondary-content/20 pb-4">
+                                    {{steps[1]}}
+                                </div>
+                                <service-select />
+                            </div>
                                 <!--                            - {{format(bookingStore.selectedDate, 'EEEE d LLLL')}}-->
-                                <booking-calendar v-else-if="bookStep === 2"/>
-                                <div v-else-if="bookStep === 3" class="flex flex-col gap-2">
+                            <div class="h-[500px]" id="stepper-2">
+                                <div class="flex my-5 border-b border-secondary-content/20 pb-4">
+                                    {{steps[2]}}
+                                </div>
+                                <booking-calendar />
+                            </div>
+                            <div class="h-[500px]" id="stepper-3">
+                                <div class="flex my-5 border-b border-secondary-content/20 pb-4">
+                                    {{steps[3]}}
+                                </div>
+                                <div class="flex flex-col gap-2">
                                     <div class="form-control max-w-max" v-for="time in bookingStore.availableTimes" :key="time">
                                         <label class="label cursor-pointer">
                                             <span class="label-text mr-2">{{ time }}</span>
@@ -37,10 +51,10 @@
                                         </label>
                                     </div>
                                 </div>
-                            </Transition>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex flex-[0_1_50px] justify-center items-center">
+                    <div class="flex w-full bg-base-100 py-5 absolute bottom-0 left-1/2 -translate-x-1/2 justify-center items-center">
                         <button @click="changeStep" class="btn btn-primary">Vazhdo</button>
                     </div>
                 </div>
@@ -55,12 +69,14 @@
     import {format} from "date-fns";
     import ServiceSelect from "~/components/booking/ServiceSelect.vue";
     import CompanyCardSkeleton from "~/components/loading/CompanyCardSkeleton.vue";
+    import {useUtils} from "~/composables/utils";
     const {public: {logoUrl}} = useRuntimeConfig();
     const bookStep = ref(1);
     const route = useRoute();
     const {username} = route.params;
     const bookingStore = useBookingStore();
     const mainStore = useMainStore();
+    const {useScrollTo} = useUtils()
 
 
     const bookingCompany = computed(() => {
@@ -77,7 +93,11 @@
         if(back === 0){
             bookStep.value > 1 && bookStep.value--;
         } else {
-            bookStep.value++;
+            if(bookStep.value > 2)
+                bookStep.value--
+            else
+                bookStep.value++;
+            useScrollTo('parent-steps', `stepper-${bookStep.value}`);
         }
     }
 

@@ -1,5 +1,8 @@
 <script setup>
     import {useMainStore} from "~/stores/main";
+    import {useUtils} from "~/composables/utils";
+
+    const {useDateFormat} = useUtils();
 
     const mainStore = useMainStore();
     const props = defineProps(['employee'])
