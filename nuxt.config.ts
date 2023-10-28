@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
   image:{
-    provider: 'netlify',
+    // provider: 'netlify',
     domains: ['vzyfityiyitbvrnvhbld.supabase.co']
   }
 })
