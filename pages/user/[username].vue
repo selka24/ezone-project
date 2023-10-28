@@ -8,6 +8,8 @@
                     </h3>
                     <nuxt-img
                         format="webp"
+                        width="100"
+                        height="100"
                         class="w-auto h-[100px] rounded-full"
                         :src="`${logoUrl}/${bookingCompany.logo_url}`"
                         alt="business-logo"/>
