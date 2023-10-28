@@ -1,5 +1,12 @@
 <template>
     <div class="px-5 flex justify-center mt-10 ">
+        <nuxt-img
+            format="webp"
+            width="500"
+            height="300"
+            src="/images/logo.png"
+            alt="e zone logo"
+        />
         <div v-if="bookingCompany?.id" class="card items-center w-full max-w-lg bg-base-100 shadow-2xl h-[80vh]">
             <div class="card-body w-full overflow-hidden">
                 <div class="flex flex-col justify-between items-center gap-x-5 gap-y-2 mb-5">
