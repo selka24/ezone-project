@@ -6,7 +6,8 @@
                     <h3 class="card-title">
                         {{bookingCompany.name}}
                     </h3>
-                    <img
+                    <nuxt-img
+                        format="webp"
                         class="w-auto h-[100px] rounded-full"
                         :src="`${logoUrl}/${bookingCompany.logo_url}`"
                         alt="business-logo"/>

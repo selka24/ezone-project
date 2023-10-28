@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   app:{
     head: {
       htmlAttrs: {
-        'data-theme': 'valentine'
+        'data-theme': 'light'
       }
     },
     pageTransition: {
@@ -27,6 +27,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@pinia/nuxt',
     'nuxt-icon',
+    '@nuxt/image',
     '@samk-dev/nuxt-vcalendar',
   ],
   supabase:{
@@ -57,5 +58,9 @@ export default defineNuxtConfig({
   },
   experimental:{
     payloadExtraction: false,
+  },
+  image:{
+    provider: 'netlify',
+    domains: ['vzyfityiyitbvrnvhbld.supabase.co']
   }
 })

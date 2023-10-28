@@ -20,7 +20,19 @@ export const useUtils = () => {
                         },5);
                     } else {
                         let interval = setInterval(() => {
-                            parent.scrollTop = scrollNo.value+=5;
+                            if(scrollNo.value >= (offsetTop - 100)) {
+                                if(scrollNo.value >= (offsetTop - 80)) {
+                                    if(scrollNo.value >= (offsetTop - 30)) {
+                                        parent.scrollTop = scrollNo.value+=1;
+                                    } else {
+                                        parent.scrollTop = scrollNo.value+=2;
+                                    }
+                                } else {
+                                    parent.scrollTop = scrollNo.value+=4;
+                                }
+                            } else {
+                                parent.scrollTop = scrollNo.value+=5;
+                            }
                             if(scrollNo.value >= offsetTop){
                                 parent.scrollTop = offsetTop
                                 clearInterval(interval);
