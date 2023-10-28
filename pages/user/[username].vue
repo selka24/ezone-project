@@ -1,9 +1,9 @@
 <template>
-    <div class="px-5 flex justify-center mt-10 ">
+    <div class="px-5 flex flex-col items-center justify-center mt-10 ">
         <nuxt-img
             format="webp"
-            width="500"
-            height="300"
+            width="300"
+            height="100"
             src="/images/logo.png"
             alt="e zone logo"
         />
