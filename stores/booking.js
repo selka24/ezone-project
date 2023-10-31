@@ -9,6 +9,8 @@ export const useBookingStore = defineStore("bookingStore", () => {
     const selectedTime = ref('')
     const selectedService = ref([]);
     const selectedDate = ref(null);
+    const bookName = ref('');
+    const bookNumber = ref('');
 
     const getBookingCompany = async (url) => {
         try {
@@ -129,6 +131,8 @@ export const useBookingStore = defineStore("bookingStore", () => {
         selectedTime,
         selectedDate,
         currentBookings,
+        bookName,
+        bookNumber,
         getBookingCompany,
         getBookingsByDate,
     }

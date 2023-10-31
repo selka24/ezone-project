@@ -89,13 +89,13 @@
                                         <label for="emri" class="label">
                                             <span class="label-text">Emri*</span>
                                         </label>
-                                        <input id="emri" type="text" placeholder="Emri juaj" class="input input-bordered w-full max-w-xs" />
+                                        <input v-model="bookingStore.bookName" id="emri" type="text" placeholder="Emri juaj" class="input input-bordered w-full max-w-xs" />
                                     </div>
                                     <div class="form-control w-full max-w-xs">
                                         <label for="numri" class="label">
                                             <span class="label-text">Nr. celular*</span>
                                         </label>
-                                        <input id="numri" type="text" placeholder="Numri i telefonit" class="input input-bordered w-full max-w-xs" />
+                                        <input v-model="bookingStore.bookNumber" id="numri" type="text" placeholder="Numri i telefonit" class="input input-bordered w-full max-w-xs" />
                                     </div>
                                 </div>
                                 <div class="form-control">
@@ -108,7 +108,7 @@
                         </div>
                     </div>
                     <div class="flex w-full bg-base-100 justify-center items-center">
-                        <button :disabled="stepInvalid" @click="changeStep" class="btn btn-primary">Vazhdo</button>
+                        <button :disabled="stepInvalid" @click="changeStep" class="btn btn-primary">{{ bookStep === 4 ? 'Prenoto' : 'Vazhdo' }}</button>
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
         } else if(bookStep.value === 3){
             return !bookingStore.selectedTime
         } else {
-            return false;
+            return bookingStore.bookName.length < 3 || bookingStore.bookNumber.length < 10;
         }
     })
 
@@ -169,6 +169,7 @@
     }
 
     const changeStep = (back) => {
+        if(bookStep.value === 4) return;
         const step = availableSteps.value.find(x => back === x);
         let nextStep = bookStep.value + 1;
         if(!step){
