@@ -1,5 +1,5 @@
 <template>
-    <div class="px-5 flex flex-col items-center justify-center mt-10 ">
+    <div class="px-5 flex flex-col items-center justify-center mt-5">
 <!--        <nuxt-img-->
 <!--            format="webp"-->
 <!--            width="300"-->
@@ -9,7 +9,7 @@
 <!--        />-->
         <div v-if="bookingCompany?.id" class="card items-center w-full max-w-lg bg-base-100 shadow-2xl">
             <div class="card-body w-full overflow-hidden">
-                <div class="flex flex-col justify-between items-center gap-x-5 gap-y-2 mb-5">
+                <div class="flex flex-col justify-between items-center gap-x-5 gap-y-2">
 <!--                    <h3 class="card-title">-->
 <!--                        {{bookingCompany.name}}-->
 <!--                    </h3>-->
@@ -33,27 +33,27 @@
 <!--                            </transition>-->
 <!--                        </div>-->
 <!--                    </div>-->
-                    <div class="flex flex-auto relative border-secondary-content/20 mb-5 overflow-hidden overflow-y-scroll no-scrollbar h-[500px]" id="parent-steps">
+                    <div class="flex flex-auto relative border-secondary-content/20 mb-5 overflow-hidden overflow-y-scroll no-scrollbar h-[400px]" id="parent-steps">
                         <div class="w-full">
 <!--                            <Transition name="slide-fade" mode="out-in">-->
-                            <div class="h-[500px]" id="stepper-1">
+                            <div class="h-[400px]" id="stepper-1">
                                 <div class="flex mb-5 border-b border-secondary-content/20 pb-4">
                                     {{steps[1]}}
                                 </div>
                                 <service-select />
                             </div>
                                 <!--                            - {{format(bookingStore.selectedDate, 'EEEE d LLLL')}}-->
-                            <div v-show="!!availableSteps.find(x => x === 2)" class="h-[500px]" id="stepper-2">
+                            <div v-show="!!availableSteps.find(x => x === 2)" class="h-[400px]" id="stepper-2">
                                 <div class="flex my-5 border-b border-secondary-content/20 pb-4">
                                     {{steps[2]}}
                                 </div>
                                 <booking-calendar />
                             </div>
-                            <div class="h-[500px]" id="stepper-3" v-show="!!availableSteps.find(x => x === 3)">
+                            <div class="h-[400px]" id="stepper-3" v-show="!!availableSteps.find(x => x === 3)">
                                 <div class="flex my-5 border-b border-secondary-content/20 pb-4">
                                     {{steps[3]}}
                                 </div>
-                                <div class="flex flex-wrap justify-between gap-5 overflow-scroll no-scrollbar h-[420px]">
+                                <div class="flex flex-wrap justify-between gap-5 overflow-scroll no-scrollbar h-[350px]">
                                     <div :class="['form-control px-3 border border-gray-200 rounded-[20px] h-[80px] flex justify-center max-w-[80px]', {'bg-primary border-primary text-white': bookingStore.selectedTime === time}]"
                                          v-for="time in bookingStore.availableTimes"
                                          :key="time">
@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="h-[500px]" id="stepper-4" v-show="!!availableSteps.find(x => x === 4)">
+                            <div class="h-[400px]" id="stepper-4" v-show="!!availableSteps.find(x => x === 4)">
                                 <div class="flex my-5 border-b border-secondary-content/20 pb-4">
                                     {{steps[4]}}
                                 </div>
