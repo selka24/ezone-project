@@ -14,11 +14,11 @@
                 <template #header-title="info">
                    {{selectedDate ? useFormatDate(selectedDate) : info.title}}
                 </template>
-                <template #footer>
-                    <div class="pt-14">
-                        <button class="btn btn-primary" @click="handleGetBookingsByDate">Shiko Oraret</button>
-                    </div>
-                </template>
+<!--                <template #footer>-->
+<!--                    <div class="pt-14">-->
+<!--                        <button class="btn btn-primary" @click="handleGetBookingsByDate">Shiko Oraret</button>-->
+<!--                    </div>-->
+<!--                </template>-->
             </VDatePicker>
         </client-only>
     </div>

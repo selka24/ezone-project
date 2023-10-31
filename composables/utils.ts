@@ -6,6 +6,7 @@ export const useUtils = () => {
 
     const useScrollTo = (parentId?: string, id: string = 'null') => {
         const offsetTop = document.getElementById(`${id}`)?.offsetTop;
+        console.log({offsetTop})
         if(offsetTop){
             if(parentId){
                 const parent = document.getElementById(`${parentId}`);
