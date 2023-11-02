@@ -1,7 +1,8 @@
-import {useMainStore} from "~/stores/main";
-import {add, areIntervalsOverlapping, compareAsc, format, roundToNearestMinutes} from "date-fns";
+import {add, startOfDay, parse, areIntervalsOverlapping, compareAsc, format, roundToNearestMinutes} from "date-fns";
+import {useFormatDate} from "~/helpers/utilites";
 
 export const useBookingStore = defineStore("bookingStore", () => {
+    const mainStore = useMainStore();
     const supabaseClient = useSupabaseClient();
     const bookingCompany = ref();
     const currentBookings = ref([]);
@@ -32,7 +33,7 @@ export const useBookingStore = defineStore("bookingStore", () => {
 
     const calculateAvailableTimes = (selectedDate, serviceDuration) => {
 
-        const companyInterval = 15;
+        const companyInterval = 30;
         let startOfDay = new Date(selectedDate);
         const today = new Date();
         startOfDay.setHours(0,0,0,0);
@@ -53,7 +54,10 @@ export const useBookingStore = defineStore("bookingStore", () => {
         const bookedTimeRanges = currentBookings.value.map((booking) => ({
             start_time: new Date(booking.start_time),
             end_time: new Date(booking.end_time),
+            employee_id: booking.employee_id
         }));
+
+        console.log(bookedTimeRanges, 'bookedTimeRanges')
 
         //when generating available times [currStartTime] keeps track
         //of the start time being generated so it can stop the while
@@ -61,11 +65,15 @@ export const useBookingStore = defineStore("bookingStore", () => {
         let currStartTime = startOfDay;
         //company interval is the interval between one hour that the company wants to be booked
         //e.g. if cI = 30min, times available for booking will be *:00 and *:30 not *:10 or smth else
-        const timesForBook = [];
 
         let sDuration = serviceDuration.split(':');
-        let sDM = (+sDuration[0]) * 60 + (+sDuration[1]);
+        let sDM = (+sDuration[0]) * 60 + (+sDuration[1]); //convert duration to minutes
+        console.log({sDM})
 
+        const noBookings = !bookedTimeRanges.length;
+
+        const timesForBook = [];
+        const busEmpl = mainStore.businessEmployees.map(e => e.user_id)
         while(currStartTime.getTime() + (sDM * 60000) <= endOfDay.getTime()){
 
             //calculates when will client end the service by getting the currStartTime and
@@ -80,25 +88,51 @@ export const useBookingStore = defineStore("bookingStore", () => {
             }
 
 
-            if(!bookedTimeRanges.length){ // if there are no bookings at all add the possible time directly
-                timesForBook.push(`${format(possibleBookTime.start_time, 'HH:mm')} - ${format(possibleBookTime.end_time, 'HH:mm')}`)
+            const formatClock = `${format(possibleBookTime.start_time, 'HH:mm')} - ${format(possibleBookTime.end_time, 'HH:mm')}`;
+
+            if(noBookings){ // if there are no bookings at all add the possible time directly
+                timesForBook.push({
+                    clock: formatClock,
+                    availableEmpl: busEmpl
+                })
                 currStartTime = add(currStartTime, {minutes: companyInterval});
             } else {
+                const currTimeBusyEmpl = [];
+                let hasOverlap = false;
                 for(const bookedTime of bookedTimeRanges){
                     if(areIntervalsOverlapping(
                         {start: possibleBookTime.start_time, end: possibleBookTime.end_time},
                         {start: bookedTime.start_time, end: bookedTime.end_time}
                     )){
-                        currStartTime = roundToNearestMinutes(bookedTime.end_time, {nearestTo: companyInterval, roundingMethod: 'ceil'});
-                    } else {
-                        timesForBook.push(`${format(possibleBookTime.start_time, 'HH:mm')} - ${format(possibleBookTime.end_time, 'HH:mm')}`)
-
-                        currStartTime = add(currStartTime, {minutes: companyInterval});
+                        hasOverlap = true;
+                        // currStartTime = roundToNearestMinutes(bookedTime.end_time, {nearestTo: companyInterval, roundingMethod: 'ceil'});
+                        currTimeBusyEmpl.push(bookedTime.employee_id)
                     }
+                    // else {
+                    //     timesForBook.push(`${format(possibleBookTime.start_time, 'HH:mm')} - ${format(possibleBookTime.end_time, 'HH:mm')}`)
+                    //
+                    //     currStartTime = add(currStartTime, {minutes: companyInterval});
+                    //     break;
+                    // }
+                }
+
+                if(!hasOverlap){
+                    timesForBook.push({
+                        clock: formatClock,
+                        availableEmpl: busEmpl
+                    })
+                } else {
+                    console.log('has overlapp', currTimeBusyEmpl)
+                    timesForBook.push({
+                        clock: formatClock,
+                        availableEmpl: busEmpl.filter(x => currTimeBusyEmpl.indexOf(x) > -1)
+                    })
                 }
             }
+            currStartTime = add(currStartTime, {minutes: companyInterval});
         }
         availableTimes.value = timesForBook;
+        console.log(timesForBook, ' timesForBook timesForBook')
         // return timesForBook;
     }
 
@@ -108,12 +142,15 @@ export const useBookingStore = defineStore("bookingStore", () => {
         //     .select('duration')
         //     .eq('id', serviceId)
         try {
+            const nextDay = add(new Date(selectedDate), {days: 1});
+            console.log(nextDay, 'nextDaynextDay')
             const {data: allBookings, error: allBookingsError} = await supabaseClient
                 .from('bookings')
-                .select('start_time, end_time')
+                .select('start_time, end_time, employee_id')
                 .eq('company_id', companyId)
                 .eq('status', 'upcoming') // Optional: Only consider upcoming bookings
-                .gte('start_time', selectedDate);
+                .gte('start_time', selectedDate)
+                .lte('end_time', useFormatDate(nextDay));
 
             if(allBookingsError) throw allBookingsError;
             console.log(allBookings, 'allBookings')

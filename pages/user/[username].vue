@@ -53,15 +53,20 @@
                                 <div class="flex my-5 border-b border-secondary-content/20 pb-4">
                                     {{steps[3]}}
                                 </div>
-                                <div class="flex flex-wrap justify-between gap-5 overflow-scroll no-scrollbar h-[350px]">
-                                    <div :class="['form-control px-3 border border-gray-200 rounded-[20px] h-[80px] flex justify-center max-w-[80px]', {'bg-primary border-primary text-white': bookingStore.selectedTime === time}]"
+                                <div class="flex flex-col gap-5 overflow-scroll no-scrollbar h-[350px]">
+                                    <div :class="['form-control px-3 border border-gray-200 rounded-[20px] h-[80px] flex', {'bg-primary border-primary text-white': bookingStore.selectedTime === time}]"
                                          v-for="time in bookingStore.availableTimes"
-                                         :key="time">
-                                        <label :for="time" class="flex flex-col label cursor-pointer">
-                                            <span class="font-semibold text-center">{{ time.split('-')[0] }}</span>
-<!--                                            <span class="text-sm text-center">-</span>-->
+                                         :key="time.clock">
+                                        <label :for="time.clock" class="flex label cursor-pointer">
+                                            <span class="font-semibold text-center">{{ time.clock.split('-')[0] }}</span>
+                                            <span class="flex text-sm text-center gap-5">
+                                                <span v-for="e in time.availableEmpl" class="">
+<!--                                                    {{e}}-->
+                                                    {{mainStore.businessEmployees.find(bE => bE.user_id === e).name}}
+                                                </span>
+                                            </span>
 <!--                                            <span class="text-sm text-center">{{ time.split('-')[1] }}</span>-->
-                                            <input :id="time"
+                                            <input :id="time.clock"
                                                    type="radio"
                                                    name="times"
                                                    :value="time"
@@ -109,6 +114,7 @@
                     </div>
                     <div class="flex w-full bg-base-100 justify-center items-center">
                         <button :disabled="stepInvalid" @click="changeStep" class="btn btn-primary">{{ bookStep === 4 ? 'Prenoto' : 'Vazhdo' }}</button>
+                        <button @click="handleGetBookingsByDate" class="btn btn-primary">TEST</button>
                     </div>
                 </div>
             </div>
