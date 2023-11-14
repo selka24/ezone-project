@@ -1,47 +1,31 @@
 <template>
-    <div class="flex flex-col items-center justify-center h-[100vh]">
+    <div ref="bookParent" class="flex flex-col items-center justify-center h-[100vh]">
         <div v-if="bookingCompany?.id" class="w-full max-w-lg bg-base-100 h-[95vh] max-h-[800px] flex flex-col">
             <CompanyLogo/>
             <div class="w-full relative flex-1 overflow-hidden overflow-y-auto no-scrollbar">
                 <transition-group name="scroll">
-                    <div v-if="bookStep === 1" class="absolute h-[100%] w-full">
+                    <div v-if="bookStep === 1" class="px-5 absolute h-[100%] w-full">
                         <div class="flex mb-5 border-b border-secondary-content/20 pb-4">
                             {{steps[1]}}
                         </div>
                         <service-select />
                     </div>
                     <div v-else-if="bookStep === 2" class="absolute h-[100%] w-full">
-                        <div class="flex my-5 border-b border-secondary-content/20 pb-4">
+                        <div class="flex mx-5 my-5 border-b border-secondary-content/20 pb-4">
                             {{steps[2]}}
                         </div>
                         <booking-calendar />
                     </div>
-                    <div v-else-if="bookStep === 3" class="absolute h-[100%] w-full">
-                        <div class="flex my-5 border-b border-secondary-content/20 pb-4">
-                            {{steps[3]}}
-                        </div>
-                        <div class="flex flex-col gap-5 overflow-scroll no-scrollbar h-[400px]">
-                            <div :class="['form-control px-3 border border-gray-200 rounded-[20px] h-[80px] flex', {'bg-primary border-primary text-white': bookingStore.selectedTime === time}]"
-                                 v-for="time in bookingStore.availableTimes"
-                                 :key="time.clock">
-                                <label :for="time.clock" class="flex label cursor-pointer">
-                                    <span class="font-semibold text-center">{{ time.clock.split('-')[0] }}</span>
-                                    <span class="flex text-sm text-center gap-5">
-                                    <span v-for="e in time.availableEmpl" class="">
-                                        {{mainStore.businessEmployees.find(bE => bE.user_id === e).name}}
-                                    </span>
-                                </span>
-                                    <!--                                            <span class="text-sm text-center">{{ time.split('-')[1] }}</span>-->
-                                    <input :id="time.clock"
-                                           type="radio"
-                                           name="times"
-                                           :value="time"
-                                           v-model="bookingStore.selectedTime"
-                                           class="hidden radio radio-primary"
-                                    />
-                                </label>
+                    <div v-else-if="bookStep === 3" class="px-5 absolute h-[100%] w-full">
+                        <div class="flex justify-between my-5 border-b border-secondary-content/20 pb-4">
+                            <div>
+                                Zgjidh orarin
+                            </div>
+                            <div>
+                                Zgjidh stafin
                             </div>
                         </div>
+                       <time-select/>
                     </div>
                     <div v-else-if="bookStep === 4" class="absolute px-5 h-[100%] w-full" id="stepper-4">
                         <div class="flex my-5 border-b border-secondary-content/20 pb-4">
@@ -79,7 +63,7 @@
                 </transition-group>
             </div>
             <div class="flex flex-shrink w-full bg-base-100 justify-center items-center">
-                <button :disabled="stepInvalid" @click="changeStep" class="btn btn-primary">{{ bookStep === 4 ? 'Prenoto' : 'Vazhdo' }}</button>
+                <button :disabled="stepInvalid" @click="changeStep(bookStep + 1)" class="btn btn-primary">{{ bookStep === 4 ? 'Prenoto' : 'Vazhdo' }}</button>
 <!--                <button @click="handleGetBookingsByDate" class="btn btn-primary">TEST</button>-->
             </div>
         </div>
@@ -90,19 +74,20 @@
     import {useBookingStore} from "~/stores/booking";
     import {useMainStore} from "~/stores/main";
     import {format} from "date-fns";
-    import ServiceSelect from "~/components/booking/ServiceSelect.vue";
     import CompanyCardSkeleton from "~/components/loading/CompanyCardSkeleton.vue";
-    import {useUtils} from "~/composables/utils";
     import CompanyLogo from "~/components/booking/CompanyLogo.vue";
-    const {public: {logoUrl}} = useRuntimeConfig();
-    const bookStep = ref(1);
+
+    const ServiceSelect = defineAsyncComponent(() => import('/components/booking/ServiceSelect.vue'))
+    const TimeSelect = defineAsyncComponent(() => import('/components/booking/TimeSelect.vue'))
+
     const route = useRoute();
     const {username} = route.params;
     const bookingStore = useBookingStore();
     const mainStore = useMainStore();
-    const {useScrollTo} = useUtils();
-    const availableSteps = ref([1]);
 
+    const bookStep = ref(1);
+    const bookParent = ref(null);
+    const { isSwiping, direction } = useSwipe(bookParent)
 
     const bookingCompany = computed(() => {
         return mainStore.businessInfo
@@ -139,18 +124,11 @@
         await bookingStore.getBookingsByDate(payload);
     }
 
-    const changeStep = (back) => {
-        if(bookStep.value === 4) return;
-        const step = availableSteps.value.find(x => back === x);
-        let nextStep = bookStep.value + 1;
-        if(!step){
-            availableSteps.value = [...availableSteps.value, nextStep];
-        }
-        bookStep.value = nextStep;
-        // nextTick(() => {
-        //     useScrollTo('parent-steps', `stepper-${bookStep.value}`);
-        // })
-        if(nextStep === 3){
+    const changeStep = (step) => {
+        if(step > 4 || step < 1) return;
+        if(step)
+        bookStep.value = step;
+        if(step === 3 && !bookingStore.currentBookings.length){
             handleGetBookingsByDate();
         }
     }
@@ -158,4 +136,47 @@
     if(username){
         mainStore.checkForCompany(username);
     }
+
+    const handleScroll = (wheel) => {
+        console.log(wheel.deltaY, 'eeeeeeeeeeee')
+        if(wheel.deltaY < 0){
+            console.log("Scrolling up");
+            changeStep(bookStep.value - 1)
+        } else{
+            console.log("Scrolling down");
+            if(!stepInvalid.value){
+                changeStep(bookStep.value + 1)
+            }
+        }
+    }
+    const handleTouch = () => {
+        console.log(direction.value, 'eeeeeeeeeeee')
+        if(direction.value === 'down'){
+            changeStep(bookStep.value - 1)
+        } else if (direction.value === 'up') {
+            changeStep(bookStep.value + 1)
+        }
+    }
+
+    watch(direction, () => {
+        handleTouch();
+    })
+
+    watch(bookStep, (newval, oldval) => {
+        if(newval > oldval){
+
+        } else {
+
+        }
+    })
+
+    onBeforeMount(() => {
+        if(process.client){
+            window.addEventListener("wheel", handleScroll);
+        }
+    })
+
+    onBeforeUnmount(() => {
+        window.removeEventListener("wheel", handleScroll);
+    })
 </script>

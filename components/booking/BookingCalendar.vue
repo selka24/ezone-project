@@ -5,21 +5,18 @@
                 :expanded="true"
                 mode="date"
                 transparent
-                color="pink"
-                view="weekly"
                 :min-date="new Date()"
                 :borderless="true"
                 v-model="selectedDate"
-            >
-                <template #header-title="info">
-                   {{selectedDate ? useFormatDate(selectedDate) : info.title}}
-                </template>
+            />
+<!--                <template #header-title="info">-->
+<!--                   {{selectedDate ? useFormatDate(selectedDate) : info.title}}-->
+<!--                </template>-->
 <!--                <template #footer>-->
 <!--                    <div class="pt-14">-->
 <!--                        <button class="btn btn-primary" @click="handleGetBookingsByDate">Shiko Oraret</button>-->
 <!--                    </div>-->
 <!--                </template>-->
-            </VDatePicker>
         </client-only>
     </div>
 </template>
@@ -124,5 +121,14 @@
 .vc-pink{
     --vc-accent-600: #e96d7b;
     --vc-white: #323232;
+}
+
+.vc-day{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.vc-weeks{
+    margin-top: 10px;
 }
 </style>

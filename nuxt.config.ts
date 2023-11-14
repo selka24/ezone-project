@@ -29,6 +29,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@nuxt/image',
     '@samk-dev/nuxt-vcalendar',
+    '@vueuse/nuxt',
   ],
   supabase:{
     redirect: false,
