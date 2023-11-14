@@ -79,3 +79,38 @@
 .v-leave-to {
     opacity: 0;
 }
+
+
+
+.scroll-leave-active,
+.scroll-enter-active {
+    transition: all 0.7s;
+}
+.scroll-enter-from {
+    transform: translate(0, 100%);
+    opacity: 0;
+}
+.scroll-leave-to {
+    transform: translate(0, -100%);
+    opacity: 0;
+}
+
+.scrollback-leave-active,
+.scrollback-enter-active {
+    transition: all 0.7s;
+}
+.scrollback-enter-from {
+    transform: translate(0, -100%);
+    opacity: 0;
+}
+.scrollback-leave-to {
+    transform: translate(0, 100%);
+    opacity: 0;
+}
+
+.scrollback-enter-active,
+.scroll-enter-active {
+    transition-delay: 0.1s;
+}
+
+
