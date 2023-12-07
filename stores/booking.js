@@ -1,4 +1,5 @@
 import {add, startOfDay, parse, areIntervalsOverlapping, compareAsc, format, roundToNearestMinutes} from "date-fns";
+import { ca } from "date-fns/locale";
 import {useFormatDate} from "~/helpers/utilites";
 
 export const useBookingStore = defineStore("bookingStore", () => {
@@ -10,6 +11,7 @@ export const useBookingStore = defineStore("bookingStore", () => {
     const selectedTime = ref('')
     const selectedService = ref([]);
     const selectedDate = ref(null);
+    const selectedEmployee = ref(null)
     const bookName = ref('');
     const bookNumber = ref('');
 
@@ -89,10 +91,16 @@ export const useBookingStore = defineStore("bookingStore", () => {
 
 
             const formatClock = `${format(possibleBookTime.start_time, 'HH:mm')} - ${format(possibleBookTime.end_time, 'HH:mm')}`;
+            // const formatClock = `${possibleBookTime.start_time} - ${possibleBookTime.end_time}`;
+            const times = {
+                start_time: possibleBookTime.start_time,
+                end_time: possibleBookTime.end_time,
+            }
 
             if(noBookings){ // if there are no bookings at all add the possible time directly
                 timesForBook.push({
                     clock: formatClock,
+                    times,
                     availableEmpl: busEmpl
                 })
                 currStartTime = add(currStartTime, {minutes: companyInterval});
@@ -100,10 +108,18 @@ export const useBookingStore = defineStore("bookingStore", () => {
                 const currTimeBusyEmpl = [];
                 let hasOverlap = false;
                 for(const bookedTime of bookedTimeRanges){
-                    if(areIntervalsOverlapping(
-                        {start: possibleBookTime.start_time, end: possibleBookTime.end_time},
-                        {start: bookedTime.start_time, end: bookedTime.end_time}
-                    )){
+                    if(
+                        areIntervalsOverlapping(
+                            {start: possibleBookTime.start_time, end: possibleBookTime.end_time},
+                            {start: bookedTime.start_time, end: bookedTime.end_time}
+                        )
+                    ){
+                        console.log(
+                            'possible',
+                            {start: possibleBookTime.start_time, end: possibleBookTime.end_time},
+                            'current',
+                            {start: bookedTime.start_time, end: bookedTime.end_time}
+                            )
                         hasOverlap = true;
                         // currStartTime = roundToNearestMinutes(bookedTime.end_time, {nearestTo: companyInterval, roundingMethod: 'ceil'});
                         currTimeBusyEmpl.push(bookedTime.employee_id)
@@ -119,14 +135,19 @@ export const useBookingStore = defineStore("bookingStore", () => {
                 if(!hasOverlap){
                     timesForBook.push({
                         clock: formatClock,
+                        times,
                         availableEmpl: busEmpl
                     })
                 } else {
+                    const filteredEMpl = busEmpl.filter(x => currTimeBusyEmpl.indexOf(x) < 0);
                     console.log('has overlapp', currTimeBusyEmpl)
-                    timesForBook.push({
-                        clock: formatClock,
-                        availableEmpl: busEmpl.filter(x => currTimeBusyEmpl.indexOf(x) > -1)
-                    })
+                    if(filteredEMpl.length > 0){
+                        timesForBook.push({
+                            clock: formatClock,
+                            times,
+                            availableEmpl: busEmpl.filter(x => currTimeBusyEmpl.indexOf(x) < 0)
+                        })
+                    }
                 }
             }
             currStartTime = add(currStartTime, {minutes: companyInterval});
@@ -161,17 +182,43 @@ export const useBookingStore = defineStore("bookingStore", () => {
         }
     }
 
+    const createBooking = async (newBooking) => {
+        try {
+            await useFetch('/api/book', {
+                method: 'post',
+                body: {
+                    booking: newBooking
+                }
+            })
+            // const response = await supabaseClient
+            // .from('bookings')
+            // .insert(newBooking)
+        } catch (e) {
+
+        }
+    }
+
+    const getMyBooking = async (id) => {
+        const response = await supabaseClient
+            .from('bookings')
+            .select('*, companies (*)')
+            .eq('id', id)
+    }
+
     return {
         availableTimes,
         bookingCompany,
         selectedService,
         selectedTime,
         selectedDate,
+        selectedEmployee,
         currentBookings,
         bookName,
         bookNumber,
         getBookingCompany,
         getBookingsByDate,
+        getMyBooking,
+        createBooking
     }
 
 })
