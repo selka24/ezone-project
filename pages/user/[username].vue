@@ -1,6 +1,6 @@
 <template>
-    <div ref="bookParent" class="flex flex-col items-center justify-center h-[100vh]">
-        <div v-if="bookingCompany?.id" class="w-full max-w-lg bg-base-100 h-[95vh] max-h-[800px] flex flex-col">
+    <div ref="bookParent" class="bg-neutral text-secondary bg-gradient-to-r to-40% from-accent flex flex-col items-center justify-center h-[100vh]">
+        <div v-if="bookingCompany?.id" class="w-full max-w-lg h-[95vh] max-h-[800px] flex flex-col">
             <CompanyLogo />
             <div class="w-full relative flex-1 overflow-hidden overflow-y-auto no-scrollbar">
                 <transition-group name="scroll">
@@ -31,27 +31,6 @@
                         <div class="flex my-5 border-b border-secondary-content/20 pb-4">
                             {{ steps[4] }}
                         </div>
-                        <div class="flex flex-col gap-3 mb-4">
-                            <div class="flex gap-2 items-center">
-                                <span class="label-text">Sherbimi:</span>
-                                <div class="font-semibold" v-for="sr in bookingStore.selectedService" :key="sr.id + 'sr'">
-                                    {{ sr.name }}</div>
-                            </div>
-                            <div class="flex gap-2 items-center">
-                                <span class="label-text">Data:</span>
-                                <div class="font-semibold" v-if="bookingStore.selectedDate">
-                                    {{ format(bookingStore.selectedDate, 'dd/LL/yyyy') }}, {{
-                                        bookingStore.selectedTime.clock }}
-                                </div>
-                            </div>
-
-                            <div class="flex gap-2 items-center">
-                                <span class="label-text">Stafi:</span>
-                                <div class="font-semibold">
-                                    {{ bookingStore.selectedEmployee }}
-                                </div>
-                            </div>
-                        </div>
                         <div class="flex gap-2 mb-2">
                             <div class="form-control w-full max-w-xs">
                                 <label for="emri" class="label">
@@ -75,11 +54,33 @@
                             <textarea id="shenime" class="textarea textarea-bordered h-24"
                                 placeholder="Vendos shenime"></textarea>
                         </div>
+
+                        <div class="flex flex-col gap-3 mt-8">
+                            <div class="flex gap-2 items-center">
+                                <span class="font-semibold label-text">Sherbimi:</span>
+                                <div class="" v-for="sr in bookingStore.selectedService" :key="sr.id + 'sr'">
+                                    {{ sr.name }}</div>
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <span class="label-text font-semibold">Data:</span>
+                                <div class="" v-if="bookingStore.selectedDate">
+                                    {{ format(bookingStore.selectedDate, 'dd/LL/yyyy') }}, {{
+                                        bookingStore.selectedTime.clock }}
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2 items-center">
+                                <span class="font-semibold label-text">Stafi:</span>
+                                <div class="">
+                                    {{ bookingStore.selectedEmployee }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </transition-group>
             </div>
-            <div class="flex flex-shrink w-full bg-base-100 justify-center items-center">
-                <button :disabled="stepInvalid" @click="changeStep(bookStep + 1)" class="btn btn-primary">{{ bookStep === 4
+            <div class="flex flex-shrink w-full bg-transparent justify-center items-center px-5">
+                <button :disabled="stepInvalid" @click="changeStep(bookStep + 1)" class="border border-secondary/20 text-secondary/80 font-semibold uppercase rounded-2xl w-full py-5">{{ bookStep === 4
                     ? 'Prenoto' : 'Vazhdo' }}</button>
                 <!--                <button @click="handleGetBookingsByDate" class="btn btn-primary">TEST</button>-->
             </div>
@@ -203,11 +204,11 @@ watch(bookStep, (newval, oldval) => {
 
 onBeforeMount(() => {
     if (process.client) {
-        window.addEventListener("wheel", handleScroll);
+        // window.addEventListener("wheel", handleScroll);
     }
 })
 
 onBeforeUnmount(() => {
-    window.removeEventListener("wheel", handleScroll);
+    // window.removeEventListener("wheel", handleScroll);
 })
 </script>

@@ -5,8 +5,8 @@
             <label :for="time.clock" class="flex label cursor-pointer">
                 <span class="font-semibold text-center">{{ time.clock.split('-')[0] }}</span>
                 <span class="flex text-sm text-center gap-5">
-                    <span v-for="e in time.availableEmpl" class="" @click="selectEmployee(e)">
-                        {{ emplName(e).name }}
+                    <span v-for="e in time.availableEmpl" :class="['border rounded-full w-7 h-7 flex justify-center items-center', {'bg-blue-500 text-white font-bold': bookingStore.selectedEmployee === e && bookingStore.selectedTime === time}]" @click="selectEmployee(e)">
+                        {{ emplName(e).shortName }}
                     </span>
                 </span>
                 <input :id="time.clock" type="radio" name="times" :value="time" v-model="bookingStore.selectedTime"

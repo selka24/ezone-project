@@ -11,7 +11,7 @@ module.exports = {
   theme: {
     // extend: {
     //   fontFamily: {
-    //     sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+    //     sans: ["Adogare", ...defaultTheme.fontFamily.sans],
     //   },
     // },
   },
@@ -21,6 +21,14 @@ module.exports = {
     // require("@tailwindcss/forms")
   ],
   daisyui: {
-    themes: ['light', 'valentine']
+    themes: [{
+      ezon: {
+        "primary": "#fe5d0d",
+        "secondary": "#474747",
+        "accent": "#cecece",
+        "neutral": "#f4f4f4",
+        "base-100": "#f7f7f7",
+      },
+    },'light', 'valentine']
   }
 };

@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   app:{
     head: {
       htmlAttrs: {
-        'data-theme': 'light'
+        'data-theme': 'ezon'
       }
     },
     pageTransition: {
@@ -45,7 +45,7 @@ export default defineNuxtConfig({
   pinia: {
     autoImports: ['defineStore', 'acceptHMRUpdate'],
   },
-  css: ['~/assets/css/main.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/fonts.css',],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -63,5 +63,8 @@ export default defineNuxtConfig({
   image:{
     // provider: 'netlify',
     domains: ['vzyfityiyitbvrnvhbld.supabase.co']
+  },
+  generate: {
+
   }
 })
