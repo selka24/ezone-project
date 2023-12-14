@@ -47,6 +47,13 @@
                                     placeholder="Numri i telefonit" class="input input-bordered w-full max-w-xs" />
                             </div>
                         </div>
+                        <div class="form-control w-full max-w-xs">
+                            <label for="email" class="label">
+                                <span class="label-text">Email*</span>
+                            </label>
+                            <input v-model="bookingStore.bookEmail" id="email" type="email"
+                                   placeholder="Email" class="input input-bordered w-full max-w-xs" />
+                        </div>
                         <div class="form-control">
                             <label for="shenime" class="label">
                                 <span class="label-text">Shenime</span>
@@ -153,7 +160,8 @@ const changeStep = async (step) => {
             phone_number: bookingStore.bookNumber,
             start_time: start_time.toLocaleString(),
             end_time: end_time.toLocaleString(),
-            status: 'upcoming'
+            status: 'upcoming',
+            email: bookingStore.bookEmail
         })
         return;
     }

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 const mainStore = useMainStore();
+const bookingStore = useBookingStore();
 const {public: {logoUrl}} = useRuntimeConfig();
 
 const bookingCompany = computed(() => {
-    return mainStore.businessInfo
+    return bookingStore.bookingCompany || mainStore.businessInfo
 })
 </script>
 

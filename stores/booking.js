@@ -6,6 +6,7 @@ export const useBookingStore = defineStore("bookingStore", () => {
     const mainStore = useMainStore();
     const supabaseClient = useSupabaseClient();
     const bookingCompany = ref();
+    const myBooking = ref(null)
     const currentBookings = ref([]);
     const availableTimes = ref([]);
     const selectedTime = ref('')
@@ -14,6 +15,7 @@ export const useBookingStore = defineStore("bookingStore", () => {
     const selectedEmployee = ref(null)
     const bookName = ref('');
     const bookNumber = ref('');
+    const bookEmail = ref('');
 
     const getBookingCompany = async (url) => {
         try {
@@ -184,12 +186,14 @@ export const useBookingStore = defineStore("bookingStore", () => {
 
     const createBooking = async (newBooking) => {
         try {
-            await useFetch('/api/book', {
+            const data = await useFetch('/api/book', {
                 method: 'post',
                 body: {
                     booking: newBooking
                 }
             })
+
+            console.log(data.data, 'data data data')
             // const response = await supabaseClient
             // .from('bookings')
             // .insert(newBooking)
@@ -199,14 +203,25 @@ export const useBookingStore = defineStore("bookingStore", () => {
     }
 
     const getMyBooking = async (id) => {
-        const response = await supabaseClient
+        const {data, error} = await supabaseClient
             .from('bookings')
-            .select('*, companies (*)')
-            .eq('id', id)
+            .select('*, companies (id, logo_url), services(id, name, price, duration), employees(user_id, name)')
+            .eq('booking_id', id)
+
+        if(error) {
+            console.log(error, 'response');
+        } else {
+            if(data.length){
+                const {companies, ...rest} = data[0]
+                bookingCompany.value = companies;
+                myBooking.value = rest;
+            }
+        }
     }
 
     return {
         availableTimes,
+        myBooking,
         bookingCompany,
         selectedService,
         selectedTime,
@@ -215,6 +230,7 @@ export const useBookingStore = defineStore("bookingStore", () => {
         currentBookings,
         bookName,
         bookNumber,
+        bookEmail,
         getBookingCompany,
         getBookingsByDate,
         getMyBooking,

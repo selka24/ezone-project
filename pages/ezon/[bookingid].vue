@@ -1,10 +1,13 @@
 <template>
-    <div>
-        {{ params }}
+    <div class="flex flex-col">
+        <CompanyLogo v-if="bookingStore.bookingCompany?.logo_url" />
+        <BookingPreview :booking="bookingStore.myBooking"/>
     </div>
 </template>
 <script setup>
-const {params} = useRoute();
+import CompanyLogo from "~/components/booking/CompanyLogo.vue";
+
+const { params } = useRoute();
 const bookingStore = useBookingStore();
 
 const getBooking = async () => {
