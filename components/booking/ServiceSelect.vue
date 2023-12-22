@@ -25,8 +25,8 @@
                         <span class="text-sm">
                             {{s.name}}
                         </span>
-                        <span class="text-sm">
-                            Kohëzgjatja: {{s.duration}}
+                        <span class="text-sm flex items-center gap-1">
+                            <Icon name="iconoir:clock"/> {{s.duration}}
                         </span>
                     </span>
                     <input

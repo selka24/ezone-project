@@ -17,14 +17,6 @@
                         <booking-calendar />
                     </div>
                     <div v-else-if="bookStep === 3" class="px-5 absolute h-[100%] w-full">
-                        <div class="flex justify-between my-5 border-b border-secondary-content/20 pb-4">
-                            <div>
-                                Zgjidh orarin
-                            </div>
-                            <div>
-                                Zgjidh stafin
-                            </div>
-                        </div>
                         <time-select />
                     </div>
                     <div v-else-if="bookStep === 4" class="absolute px-5 h-[100%] w-full" id="stepper-4">
@@ -112,7 +104,7 @@ const mainStore = useMainStore();
 
 const bookStep = ref(1);
 const bookParent = ref(null);
-const { isSwiping, direction } = useSwipe(bookParent)
+// const { isSwiping, direction } = useSwipe(bookParent)
 
 const bookingCompany = computed(() => {
     return mainStore.businessInfo
@@ -124,7 +116,7 @@ const stepInvalid = computed(() => {
     } else if (bookStep.value === 2) {
         return !bookingStore.selectedDate
     } else if (bookStep.value === 3) {
-        return !bookingStore.selectedTime
+        return !bookingStore.selectedTime || !bookingStore.selectedEmployee
     } else {
         return bookingStore.bookName.length < 3 || bookingStore.bookNumber.length < 10;
     }
@@ -169,7 +161,7 @@ const changeStep = async (step) => {
     if (step)
         bookStep.value = step;
     if (step === 3 && !bookingStore.currentBookings.length) {
-        handleGetBookingsByDate();
+        await handleGetBookingsByDate();
     }
 }
 
@@ -177,30 +169,30 @@ if (username) {
     mainStore.checkForCompany(username);
 }
 
-const handleScroll = (wheel) => {
-    console.log(wheel.deltaY, 'eeeeeeeeeeee')
-    if (wheel.deltaY < 0) {
-        console.log("Scrolling up");
-        changeStep(bookStep.value - 1)
-    } else {
-        console.log("Scrolling down");
-        if (!stepInvalid.value) {
-            changeStep(bookStep.value + 1)
-        }
-    }
-}
-const handleTouch = () => {
-    console.log(direction.value, 'eeeeeeeeeeee')
-    if (direction.value === 'down') {
-        changeStep(bookStep.value - 1)
-    } else if (direction.value === 'up') {
-        changeStep(bookStep.value + 1)
-    }
-}
-
-watch(direction, () => {
-    handleTouch();
-})
+// const handleScroll = (wheel) => {
+//     console.log(wheel.deltaY, 'eeeeeeeeeeee')
+//     if (wheel.deltaY < 0) {
+//         console.log("Scrolling up");
+//         changeStep(bookStep.value - 1)
+//     } else {
+//         console.log("Scrolling down");
+//         if (!stepInvalid.value) {
+//             changeStep(bookStep.value + 1)
+//         }
+//     }
+// }
+// const handleTouch = () => {
+//     console.log(direction.value, 'eeeeeeeeeeee')
+//     if (direction.value === 'down') {
+//         changeStep(bookStep.value - 1)
+//     } else if (direction.value === 'up') {
+//         changeStep(bookStep.value + 1)
+//     }
+// }
+//
+// watch(direction, () => {
+//     handleTouch();
+// })
 
 watch(bookStep, (newval, oldval) => {
     if (newval > oldval) {

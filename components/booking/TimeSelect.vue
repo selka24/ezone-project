@@ -1,4 +1,12 @@
 <template>
+    <div class="flex justify-between my-5 border-b border-secondary-content/20 pb-4">
+        <div>
+            Zgjidh orarin
+        </div>
+        <div>
+            Zgjidh stafin
+        </div>
+    </div>
     <div class="flex flex-col gap-5">
         <div :class="['form-control px-3 border border-gray-200 rounded-[20px] flex', { 'border-primary': bookingStore.selectedTime === time }]"
             v-for="time in bookingStore.availableTimes" :key="time.clock">
