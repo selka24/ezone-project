@@ -19,6 +19,13 @@ export const useMainStore = defineStore("mainStore", () => {
     return (user.value?.app_metadata.owner === '1')
   })
 
+  const emplName = computed(() => (emplId)=> {
+      const bEmpl = businessEmployees.value.find(bE => bE.user_id === emplId)
+      const shortName = bEmpl.name.split('')[0]
+      return {shortName, name: bEmpl.name}
+    }
+  )
+
 
   //actions
   const createCompany = async () => {
@@ -173,6 +180,7 @@ export const useMainStore = defineStore("mainStore", () => {
   return {
     businessInfo,
     formStep,
+    emplName,
     businessServices,
     users,
     businessEmployees,

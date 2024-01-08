@@ -1,5 +1,5 @@
 <template>
-    <div ref="bookParent" class="bg-neutral text-secondary bg-gradient-to-r to-40% from-accent flex flex-col items-center justify-center h-[100vh]">
+    <div ref="bookParent" class="bg-neutral text-secondary bg-gradient-to-tr to-secondary-content/30 to-40% from-accent flex flex-col items-center justify-center h-[100vh]">
         <div v-if="bookingCompany?.id" class="w-full max-w-lg h-[95vh] max-h-[800px] flex flex-col">
             <CompanyLogo />
             <div class="w-full relative flex-1 overflow-hidden overflow-y-auto no-scrollbar">
@@ -61,17 +61,17 @@
                                     {{ sr.name }}</div>
                             </div>
                             <div class="flex gap-2 items-center">
-                                <span class="label-text font-semibold">Data:</span>
+                                <span class="label-text font-semibold">Orari:</span>
                                 <div class="" v-if="bookingStore.selectedDate">
-                                    {{ format(bookingStore.selectedDate, 'dd/LL/yyyy') }}, {{
-                                        bookingStore.selectedTime.clock }}
+                                    {{ format(bookingStore.selectedDate, 'EEE dd LLL') }}
+                                    {{bookingStore.selectedTime.clock }}
                                 </div>
                             </div>
 
                             <div class="flex gap-2 items-center">
                                 <span class="font-semibold label-text">Stafi:</span>
                                 <div class="">
-                                    {{ bookingStore.selectedEmployee }}
+                                    {{ mainStore.emplName(bookingStore.selectedEmployee).name }}
                                 </div>
                             </div>
                         </div>
@@ -79,8 +79,13 @@
                 </transition-group>
             </div>
             <div class="flex flex-shrink w-full bg-transparent justify-center items-center px-5">
-                <button :disabled="stepInvalid" @click="changeStep(bookStep + 1)" class="border border-secondary/20 text-secondary/80 font-semibold uppercase rounded-2xl w-full py-5">{{ bookStep === 4
-                    ? 'Prenoto' : 'Vazhdo' }}</button>
+                <button :disabled="stepInvalid" @click="changeStep(bookStep + 1)"
+                        :class="[
+                            'border border-secondary/20 text-secondary/80 font-semibold uppercase rounded-2xl w-full py-5',
+                            {'bg-primary text-white': !stepInvalid}
+                        ]">
+                    {{ bookStep === 4 ? 'Prenoto' : 'Vazhdo' }}
+                </button>
                 <!--                <button @click="handleGetBookingsByDate" class="btn btn-primary">TEST</button>-->
             </div>
         </div>
