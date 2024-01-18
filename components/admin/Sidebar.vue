@@ -1,9 +1,17 @@
 <script setup lang="ts">
+    const menu = [
+        {icon: 'iconoir:candlestick-chart', title: 'Dashboard', path: ''},
+        {icon: 'iconoir:wallet', title: 'Portfolio', path: ''},
+        {icon: 'iconoir:stats-report', title: 'Reports', path: ''},
+        {icon: 'iconoir:building', title: 'My Business', path: ''},
+        {icon: 'iconoir:community', title: 'My Staff', path: ''},
+        {icon: 'iconoir:settings', title: 'Settings', path: ''},
+    ]
 
 </script>
 
 <template>
-        <div class="fixed h-[100vh]  z-10 flex flex-col bg-primary pl-3">
+        <div class="fixed h-[100vh]  z-10 flex flex-col bg-primary pl-3 top-0">
             <div class="flex items-center justify-center rounded-md p-4 text-white mb-10">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 cursor-pointer">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
@@ -12,54 +20,59 @@
 
             <div class="rounded-md">
                 <ul class="tabs flex-col items-center">
-                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl active relative bg-white">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
-                            </svg>
-                        </a>
-                        <div>Dashboard</div>
+                    <li v-for="(item, idx) in menu"
+                        :key="item.title"
+                        :class="['cursor-pointer w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative', {'active bg-white': idx === 0}]">
+                        <nuxt-link>
+                            <Icon :name="item.icon" :class="['text-2xl text-white', {'text-primary': idx === 0}]"/>
+                        </nuxt-link>
+<!--                        <a>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />-->
+<!--                            </svg>-->
+<!--                        </a>-->
+                        <div :class="['text-white font-semibold',{'text-primary': idx === 0}]">{{item.title}}</div>
                     </li>
-                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
-                            </svg>
-                        </a>
-                        <div>Dashboard</div>
-                    </li>
-                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
-                            </svg>
-                        </a>
-                        <div>Dashboard</div>
-                    </li>
-                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
-                            </svg>
-                        </a>
-                        <div>Dashboard</div>
-                    </li>
-                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
-                            </svg>
-                        </a>
-                        <div>Dashboard</div>
-                    </li>
-                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />
-                            </svg>
-                        </a>
-                        <div>Dashboard</div>
-                    </li>
+<!--                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">-->
+<!--                        <a>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />-->
+<!--                            </svg>-->
+<!--                        </a>-->
+<!--                        <div>Dashboard</div>-->
+<!--                    </li>-->
+<!--                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">-->
+<!--                        <a>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />-->
+<!--                            </svg>-->
+<!--                        </a>-->
+<!--                        <div>Dashboard</div>-->
+<!--                    </li>-->
+<!--                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">-->
+<!--                        <a>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />-->
+<!--                            </svg>-->
+<!--                        </a>-->
+<!--                        <div>Dashboard</div>-->
+<!--                    </li>-->
+<!--                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">-->
+<!--                        <a>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />-->
+<!--                            </svg>-->
+<!--                        </a>-->
+<!--                        <div>Dashboard</div>-->
+<!--                    </li>-->
+<!--                    <li class="w-full flex gap-2 py-3 px-3 my-3 rounded-l-3xl relative">-->
+<!--                        <a>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-primary transition-all hover:text-blue-600">-->
+<!--                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 13.5V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m12-3V3.75m0 9.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 3.75V16.5m-6-9V3.75m0 3.75a1.5 1.5 0 010 3m0-3a1.5 1.5 0 000 3m0 9.75V10.5" />-->
+<!--                            </svg>-->
+<!--                        </a>-->
+<!--                        <div>Dashboard</div>-->
+<!--                    </li>-->
 <!--                    <li class="py-3 pl-3 my-3">-->
 <!--                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-white transition-all hover:text-blue-600">-->
 <!--                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />-->
@@ -86,11 +99,11 @@
 <!--                        </svg>-->
 <!--                    </li>-->
                 </ul>
-                <div class="flex items-center justify-center pb-5 my-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-white hover:text-blue-600">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                    </svg>
-                </div>
+            </div>
+            <div class="mt-auto flex items-center justify-center pb-14 my-10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 cursor-pointer text-white hover:text-blue-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                </svg>
             </div>
         </div>
 </template>
@@ -123,8 +136,7 @@
     z-index: 1;
 }
 /* Squares */
-.tabs li:before, .tabs li:after {
-    background: #ddc385;
+.tabs  li:before, .tabs li:after {
     width: 30px;
     height: 30px;
 }
@@ -142,7 +154,6 @@
     -webkit-border-radius: 20px;
     -moz-border-radius:    20px;
     border-radius:         20px;
-    background: #222;
 
     /* Circles over squares */
     z-index: 2;
