@@ -2,7 +2,7 @@
     <div>
 <!--        <lazy-header v-if="user && !isOnUserPath"/>-->
         <sidebar v-if="user && !isOnUserPath"/>
-        <div v-if="user && !isOnUserPath" class="ml-16">
+        <div class="ml-32">
             <slot/>
         </div>
     </div>
