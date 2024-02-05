@@ -112,7 +112,7 @@ export const useMainStore = defineStore("mainStore", () => {
     }
   };
 
-  const checkForCompany = async (url) => {
+  const checkForCompany = async (url = '') => {
     if(!user?.value && !url) return;
     let response = false;
     try {

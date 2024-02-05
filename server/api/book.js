@@ -3,12 +3,12 @@ import { createError } from 'h3';
 // import { createTwilioClient } from '../utilities/twilio-loader.js';
 import { Resend } from 'resend';
 
-const htmlEmail = `<!DOCTYPE html>
+const htmlEmail = (booking) => `<!DOCTYPE html>
 
 <html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
 
     <head>
-    <title></title>
+    <title></title>https://www.facebook.com/
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]--><!--[if !mso]><!-->
@@ -125,7 +125,7 @@ p {
                                                      style="line-height:10px">
                                                     <div style="max-width: 161px;"><img
                                                         alt="Alternate text"
-                                                        src="images/Group_5.png"
+                                                        src="https://e-zone-project.vercel.app/images/logo.png"
                                                         style="display: block; height: auto; border: 0; width: 100%;"
                                                         title="Alternate text" width="161" /></div>
                                                 </div>
@@ -165,7 +165,7 @@ p {
                                                 style="padding-left:25px;padding-right:25px;">
                                                 <div
                                                     style="color:#555555;font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:30px;line-height:120%;text-align:center;mso-line-height-alt:36px;">
-                                                    <p style="margin: 0; word-break: break-word;">
+                                                    <p style="  margin: 0; word-break: break-word;">
 																		<span><strong>Ju lutem konfirmoni rezervimin
 																				tuaj</strong></span>
                                                     </p>
@@ -185,7 +185,7 @@ p {
                                                 <div
                                                     style="color:#555555;font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:22px;line-height:120%;text-align:center;mso-line-height-alt:26.4px;">
                                                     <p style="margin: 0; word-break: break-word;">
-                                                        <span>Emri i kompanise</span>
+                                                        <span>${booking.companies.name}</span>
                                                     </p>
                                                 </div>
                                             </td>
@@ -201,8 +201,9 @@ p {
                                                 <div
                                                     style="color:#555555;font-family:'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:120%;text-align:center;mso-line-height-alt:18px;">
                                                     <p style="margin: 0; word-break: break-word;">
-																		<span>Table for 2 on Saturday, July 18, 2020 at
-																			7:00 pm</span>
+                                                        <span>
+                                                            ${booking.start_time}
+                                                        </span>
                                                     </p>
                                                 </div>
                                             </td>
@@ -242,7 +243,7 @@ p {
                                                 <div
                                                     style="color:#555555;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:right;mso-line-height-alt:18px;">
                                                     <p style="margin: 0; word-break: break-word;">
-                                                        <strong><span>Name :</span></strong>
+                                                        <strong><span>Emri :</span></strong>
                                                     </p>
                                                 </div>
                                             </td>
@@ -262,7 +263,7 @@ p {
                                                 <div
                                                     style="color:#555555;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:18px;">
                                                     <p style="margin: 0; word-break: break-word;">
-                                                        <span>Derek Brumby</span>
+                                                        <span>${booking.client_name}</span>
                                                     </p>
                                                 </div>
                                             </td>
@@ -300,7 +301,7 @@ p {
                                                 <div
                                                     style="color:#555555;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:right;mso-line-height-alt:18px;">
                                                     <p style="margin: 0; word-break: break-word;">
-                                                        <strong><span>Confirmation # :</span></strong>
+                                                        <strong><span>Sherbimet :</span></strong>
                                                     </p>
                                                 </div>
                                             </td>
@@ -320,7 +321,49 @@ p {
                                                 <div
                                                     style="color:#555555;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:18px;">
                                                     <p style="margin: 0; word-break: break-word;">
-                                                        <span>2110347973</span>
+                                                        <span>${booking.services.name}</span>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="column column-1"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
+                                                <div
+                                                    style="color:#555555;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:right;mso-line-height-alt:18px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <strong><span>Numri i rezervimit :</span></strong>
+                                                    </p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="column column-2"
+                                    style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top; border-top: 0px; border-right: 0px; border-bottom: 0px; border-left: 0px;"
+                                    width="50%">
+                                    <table border="0" cellpadding="0" cellspacing="0"
+                                           class="paragraph_block block-1" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad"
+                                                style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
+                                                <div
+                                                    style="color:#555555;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:18px;">
+                                                    <p style="margin: 0; word-break: break-word;">
+                                                        <span>${booking.booking_id}</span>
                                                     </p>
                                                 </div>
                                             </td>
@@ -350,6 +393,25 @@ p {
                                     width="100%">
                                     <div class="spacer_block block-1"
                                          style="height:40px;line-height:40px;font-size:1px;"> </div>
+                                    <table border="0" cellpadding="10" cellspacing="0"
+                                           class="button_block block-2" role="presentation"
+                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
+                                           width="100%">
+                                        <tr>
+                                            <td class="pad">
+                                                <div align="center" class="alignment"><!--[if mso]>
+<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.example.com" style="height:42px;width:234px;v-text-anchor:middle;" arcsize="10%" stroke="false" fillcolor="#da3743">
+<w:anchorlock/>
+<v:textbox inset="0px,0px,0px,0px">
+<center style="color:#ffffff; font-family:Arial, sans-serif; font-size:16px">
+<![endif]--><a href="${booking.link}" style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#da3743;border-radius:4px;width:auto;border-top:0px solid transparent;font-weight:undefined;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:5px;padding-bottom:5px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;"
+               target="_blank"><span
+                                                    style="padding-left:45px;padding-right:45px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
+                                                    style="word-break: break-word; line-height: 32px;">Konfirmo Rezervimin</span></span></a><!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                     <table border="0" cellpadding="10" cellspacing="0"
                                            class="button_block block-2" role="presentation"
                                            style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
@@ -452,56 +514,56 @@ p {
                                             </td>
                                         </tr>
                                     </table>
-                                    <table border="0" cellpadding="10" cellspacing="0"
-                                           class="social_block block-3" role="presentation"
-                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"
-                                           width="100%">
-                                        <tr>
-                                            <td class="pad">
-                                                <div align="center" class="alignment">
-                                                    <table border="0" cellpadding="0" cellspacing="0"
-                                                           class="social-table" role="presentation"
-                                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;"
-                                                           width="208px">
-                                                        <tr>
-                                                            <td style="padding:0 10px 0 10px;"><a
-                                                                href="https://www.facebook.com/"
-                                                                target="_blank"><img alt="Facebook"
-                                                                                     height="32"
-                                                                                     src="images/Group_6.png"
-                                                                                     style="display: block; height: auto; border: 0;"
-                                                                                     title="Follow us on Facebook"
-                                                                                     width="32" /></a></td>
-                                                            <td style="padding:0 10px 0 10px;"><a
-                                                                href="https://www.twitter.com/"
-                                                                target="_blank"><img alt="Twitter"
-                                                                                     height="32"
-                                                                                     src="images/Group_7.png"
-                                                                                     style="display: block; height: auto; border: 0;"
-                                                                                     title="Follow us on Twitter"
-                                                                                     width="32" /></a></td>
-                                                            <td style="padding:0 10px 0 10px;"><a
-                                                                href="https://www.instagram.com/"
-                                                                target="_blank"><img alt="Instagram"
-                                                                                     height="32"
-                                                                                     src="images/Group_9.png"
-                                                                                     style="display: block; height: auto; border: 0;"
-                                                                                     title="Follow us on Instagram"
-                                                                                     width="32" /></a></td>
-                                                            <td style="padding:0 10px 0 10px;"><a
-                                                                href="https://www.pinterest.com/"
-                                                                target="_blank"><img alt="Pinterest"
-                                                                                     height="32"
-                                                                                     src="images/Group_8.png"
-                                                                                     style="display: block; height: auto; border: 0;"
-                                                                                     title="Follow us on Pinterest"
-                                                                                     width="32" /></a></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+<!--                                    <table border="0" cellpadding="10" cellspacing="0"-->
+<!--                                           class="social_block block-3" role="presentation"-->
+<!--                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;"-->
+<!--                                           width="100%">-->
+<!--                                        <tr>-->
+<!--                                            <td class="pad">-->
+<!--                                                <div align="center" class="alignment">-->
+<!--                                                    <table border="0" cellpadding="0" cellspacing="0"-->
+<!--                                                           class="social-table" role="presentation"-->
+<!--                                                           style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block;"-->
+<!--                                                           width="208px">-->
+<!--                                                        <tr>-->
+<!--                                                            <td style="padding:0 10px 0 10px;"><a-->
+<!--                                                                href="https://www.facebook.com/"-->
+<!--                                                                target="_blank"><img alt="Facebook"-->
+<!--                                                                                     height="32"-->
+<!--                                                                                     src="images/Group_6.png"-->
+<!--                                                                                     style="display: block; height: auto; border: 0;"-->
+<!--                                                                                     title="Follow us on Facebook"-->
+<!--                                                                                     width="32" /></a></td>-->
+<!--                                                            <td style="padding:0 10px 0 10px;"><a-->
+<!--                                                                href="https://www.twitter.com/"-->
+<!--                                                                target="_blank"><img alt="Twitter"-->
+<!--                                                                                     height="32"-->
+<!--                                                                                     src="images/Group_7.png"-->
+<!--                                                                                     style="display: block; height: auto; border: 0;"-->
+<!--                                                                                     title="Follow us on Twitter"-->
+<!--                                                                                     width="32" /></a></td>-->
+<!--                                                            <td style="padding:0 10px 0 10px;"><a-->
+<!--                                                                href="https://www.instagram.com/"-->
+<!--                                                                target="_blank"><img alt="Instagram"-->
+<!--                                                                                     height="32"-->
+<!--                                                                                     src="images/Group_9.png"-->
+<!--                                                                                     style="display: block; height: auto; border: 0;"-->
+<!--                                                                                     title="Follow us on Instagram"-->
+<!--                                                                                     width="32" /></a></td>-->
+<!--                                                            <td style="padding:0 10px 0 10px;"><a-->
+<!--                                                                href="https://www.pinterest.com/"-->
+<!--                                                                target="_blank"><img alt="Pinterest"-->
+<!--                                                                                     height="32"-->
+<!--                                                                                     src="images/Group_8.png"-->
+<!--                                                                                     style="display: block; height: auto; border: 0;"-->
+<!--                                                                                     title="Follow us on Pinterest"-->
+<!--                                                                                     width="32" /></a></td>-->
+<!--                                                        </tr>-->
+<!--                                                    </table>-->
+<!--                                                </div>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
                                     <table border="0" cellpadding="0" cellspacing="0"
                                            class="paragraph_block block-4" role="presentation"
                                            style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"
@@ -547,7 +609,7 @@ export default defineEventHandler(async (event) => {
         const {data, error} = await client
         .from('bookings')
         .insert(rest)
-        .select('*, companies (*)')
+        .select('*, companies (*), services (*)')
     if (error) {
         throw createError({ statusMessage: error.message })
     }
@@ -555,7 +617,8 @@ export default defineEventHandler(async (event) => {
     const [booking] = data;
     const {companies} = booking;
 
-    const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8001' : 'https://e-zone-project.vercel.app'
+    const host = process.env.NODE_ENV === 'development' ? 'http://localhost:8001' : 'https://e-zone-project.vercel.app';
+    const link = `${host}/ezon/${booking.booking_id}?confirm=true`;
     const message = `Përshëndetje <strong>${booking.client_name}</strong>,<br> Orari juaj osht zon me sukses! <br>
                             Ju lutem klikoni mbi linkun e referencës për të konfirmuar rezervimin: <a href="${host}/ezon/${booking.booking_id}">${booking.start_time}</a> <br>
                             Faleminderit, <br>
@@ -564,7 +627,7 @@ export default defineEventHandler(async (event) => {
         from: 'E ZON <onboarding@resend.dev>',
         to: [email],
         subject: 'Rezervim',
-        html: htmlEmail,
+        html: htmlEmail({...booking, link}),
     }
 
     try {
